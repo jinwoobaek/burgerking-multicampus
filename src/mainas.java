@@ -1,4 +1,3 @@
 
 public class mainas {
- asdfs
 }

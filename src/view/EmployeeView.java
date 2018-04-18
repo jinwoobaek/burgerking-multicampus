@@ -74,7 +74,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		p_west_center_center.setLayout(new BorderLayout());
 		// BorderLayout은 영역 설정도 해야함
 		p_west_center_center.add(new JLabel("설명"), BorderLayout.WEST);
-		p_west_center_center.add(taVideoContent, BorderLayout.CENTER);
+		//p_west_center_center.add(taVideoContent, BorderLayout.CENTER);
 
 		// 왼쪽 화면에 붙이기
 		p_west_center.add(p_west_center_north, BorderLayout.NORTH);

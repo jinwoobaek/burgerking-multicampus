@@ -10,8 +10,8 @@ public class BurgerKing implements ActionListener {
 
 	JFrame f;
 	public static CardLayout card;
-	JPanel btnPanel, cardPanel, testPanel;
-	JButton btnOrderView, btnStockView, btnSalesView, btnEmployeeView;
+	JPanel btnPanel, cardPanel;
+	JButton btn_OrderView, btn_StockView, btn_SalesView, btn_EmployeeView;
 
 	public BurgerKing() {
 		addLayout();
@@ -23,26 +23,26 @@ public class BurgerKing implements ActionListener {
 	}
 
 	void eventProc() {
-		btnOrderView.addActionListener(this);
-		btnStockView.addActionListener(this);
-		btnSalesView.addActionListener(this);
-		btnSalesView.addActionListener(this);
+		btn_OrderView.addActionListener(this);
+		btn_StockView.addActionListener(this);
+		btn_SalesView.addActionListener(this);
+		btn_SalesView.addActionListener(this);
 	}
 
 	void addLayout() {
 		f = new JFrame(); // 메인 프레임
 		card = new CardLayout();
 		btnPanel = new JPanel(); // 버튼패널
-		btnOrderView = new JButton("주문");
-		btnStockView = new JButton("재고");
-		btnSalesView = new JButton("매출");
-		btnEmployeeView = new JButton("직원");
+		btn_OrderView = new JButton("주문");
+		btn_StockView = new JButton("재고");
+		btn_SalesView = new JButton("매출");
+		btn_EmployeeView = new JButton("직원");
 
 		btnPanel.setLayout(new GridLayout(4, 1, 5, 5));
-		btnPanel.add(btnOrderView);
-		btnPanel.add(btnStockView);
-		btnPanel.add(btnSalesView);
-		btnPanel.add(btnEmployeeView);
+		btnPanel.add(btn_OrderView);
+		btnPanel.add(btn_StockView);
+		btnPanel.add(btn_SalesView);
+		btnPanel.add(btn_EmployeeView);
 		btnPanel.setSize(20, 15);
 
 		cardPanel = new JPanel(card);
@@ -62,13 +62,13 @@ public class BurgerKing implements ActionListener {
 
 		Object evt = e.getSource();
 
-		if (evt == btnOrderView) {
+		if (evt == btn_OrderView) {
 			card.show(cardPanel, "pan");
-		} else if (evt == btnStockView) {
+		} else if (evt == btn_StockView) {
 
-		} else if (evt == btnSalesView) {
+		} else if (evt == btn_SalesView) {
 
-		} else if (evt == btnEmployeeView) {
+		} else if (evt == btn_EmployeeView) {
 
 		}
 

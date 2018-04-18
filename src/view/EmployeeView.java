@@ -10,9 +10,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
+
+import main.BurgerKing;
 
 public class EmployeeView extends JPanel implements ActionListener {
 	JTextField tf_EmpNo, tf_EmpName, tf_IdNo, tf_Gender, tf_Addr, tf_Job, tf_Salary, tf_Home;
@@ -20,8 +24,11 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 	JComboBox com_EmpSearch;
 	JTextField tf_EmpSearch;
-
 	JTable tableEmployee;
+
+	EmployeeTableModel tb_ModelEmployee;
+
+	// tableVideo = new JTable(tbModelVideo);
 
 	public EmployeeView() {
 		addLayout(); // 화면설계
@@ -29,6 +36,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 	}
 
 	public void addLayout() {
+
 		tf_EmpNo = new JTextField();
 		tf_EmpName = new JTextField();
 		tf_IdNo = new JTextField();
@@ -40,12 +48,14 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 		btn_Regist = new JButton("직원등록");
 		btn_Modify = new JButton("정보변경");
-		btn_Delete = new JButton("해고");
-		btn_Home = new JButton("Home");
+		btn_Delete = new JButton("집으로가");
+		btn_Home = new JButton("홈으로");
 
 		String[] cbEmpSearch = { "이름", "사번" };
 		com_EmpSearch = new JComboBox(cbEmpSearch);
-		tf_EmpSearch = new JTextField();
+		tf_EmpSearch = new JTextField(15);
+
+		tb_ModelEmployee = new EmployeeTableModel();
 
 		// ************화면구성************
 		// 왼쪽영역
@@ -69,13 +79,15 @@ public class EmployeeView extends JPanel implements ActionListener {
 		p_west_center.add(tf_Job);
 		p_west_center.add(new JLabel("연봉"));
 		p_west_center.add(tf_Salary);
+		p_west_center.setBorder(new TitledBorder("사원 정보입력"));
 
 		// 왼쪽 아래
 		JPanel p_west_south = new JPanel();
-		p_west_south.setLayout(new GridLayout(1, 3));
+		p_west_south.setLayout(new GridLayout(1, 4));
 		p_west_south.add(btn_Regist);
 		p_west_south.add(btn_Modify);
 		p_west_south.add(btn_Delete);
+		p_west_south.add(btn_Home);
 
 		// 왼쪽 위아래 합체
 		p_west.add(p_west_center, BorderLayout.CENTER);
@@ -87,23 +99,37 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 		// 오른쪽 위
 		JPanel p_east_north = new JPanel();
-		// p_east_north.setLayout(mgr);
+		p_east_north.add(com_EmpSearch);
+		p_east_north.add(tf_EmpSearch);
+		p_east_north.setBorder(new TitledBorder("사원 검색"));
+
+		// 오른쪽 아래 (테이블)
+		p_east.add(p_east_north, BorderLayout.NORTH);
+		p_east.add(new JScrollPane(tableEmployee), BorderLayout.CENTER);
 
 		// 전체 화면에 왼쪽 오른쪽 붙이기
 		setLayout(new GridLayout(1, 2));
 
 		add(p_west);
-		// add(p_east);
+		add(p_east);
 
 	}
 
 	public void eventProc() {
+
+		btn_Regist.addActionListener(this);
+		btn_Modify.addActionListener(this);
+		btn_Delete.addActionListener(this);
+		btn_Home.addActionListener(this);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object evt = e.getSource();
+		if (evt == btn_Home) {
+			BurgerKing.card.first(BurgerKing.cardPanel);
+		}
 
 	}
 

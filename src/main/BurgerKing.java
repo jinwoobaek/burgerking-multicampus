@@ -31,7 +31,7 @@ public class BurgerKing implements ActionListener {
 		btn_OrderView.addActionListener(this);
 		btn_StockView.addActionListener(this);
 		btn_SalesView.addActionListener(this);
-		btn_SalesView.addActionListener(this);
+		btn_EmployeeView.addActionListener(this);
 	}
 
 	void addLayout() {
@@ -70,7 +70,7 @@ public class BurgerKing implements ActionListener {
 		Object evt = e.getSource();
 
 		if (evt == btn_OrderView) {
-
+			
 		} else if (evt == btn_StockView) {
 
 		} else if (evt == btn_SalesView) {

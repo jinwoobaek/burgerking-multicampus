@@ -9,10 +9,9 @@ import java.awt.event.ActionListener;
 public class BurgerKing implements ActionListener {
 
 	JFrame f;
-	CardLayout card;
-	JPanel btnPanel, cardPanel;
-	JButton btnOrderView, btnStockView, btnSalesView, btnEmployeeView;
-	PanA  pan = new PanA();
+	public static CardLayout card;
+	JPanel btnPanel, cardPanel, testPanel;
+	JButton btnOrderView, btnStockView, btnSalesView, btnEmployeeView, btn;
 
 	
 	
@@ -35,6 +34,7 @@ public class BurgerKing implements ActionListener {
 		btnStockView.addActionListener(this);
 		btnSalesView.addActionListener(this);
 		btnSalesView.addActionListener(this);
+		btn.addActionListener(this);
 	}
 	
 	void addLayout(){
@@ -54,9 +54,19 @@ public class BurgerKing implements ActionListener {
 		btnPanel.add(btnEmployeeView);
 		btnPanel.setSize(20,15);
 		
+		
+		testPanel = new JPanel();
+		testPanel.setLayout(new GridLayout(2, 2));
+		testPanel.setBackground( Color.red );
+		btn = new JButton("BACK");
+		testPanel.add(btn);
+		
+		
+		
 		cardPanel= new JPanel(card);
 		cardPanel.add(btnPanel,"btnPanel");
-		cardPanel.add(pan,"pan");
+		cardPanel.add(testPanel,"pan");
+		
 	
 		
 		f.add(cardPanel);
@@ -78,8 +88,11 @@ public class BurgerKing implements ActionListener {
 
 		if (evt == btnOrderView) {
 			card.show(cardPanel, "pan");
-			
 
+		}
+		
+		if(evt==btn){
+			card.first(cardPanel);
 		}
 
 		
@@ -87,10 +100,3 @@ public class BurgerKing implements ActionListener {
 
 }
 
-class PanA extends JPanel
-{
-	PanA()
-	{
-		setBackground( Color.red );
-	}
-}

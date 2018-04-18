@@ -62,7 +62,7 @@ public class OrderView extends JPanel implements ActionListener {
 			
 		}
 	
-		void addLayout(){
+		void addLayout(){  //화면 구성***************
 			
 		setLayout(new BorderLayout());
 		temp="";

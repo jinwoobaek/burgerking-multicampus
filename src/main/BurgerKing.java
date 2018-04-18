@@ -1,13 +1,19 @@
 package main;
 
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import view.EmployeeView;
 import view.OrderView;
@@ -20,6 +26,7 @@ public class BurgerKing implements ActionListener {
 	JPanel btnPanel;
 	public static JPanel cardPanel;
 	JButton btn_OrderView, btn_StockView, btn_SalesView, btn_EmployeeView;
+	JLabel img_Top;
 
 	EmployeeView empView;
 	OrderView orderView;
@@ -47,12 +54,21 @@ public class BurgerKing implements ActionListener {
 		btn_SalesView = new JButton("매출");
 		btn_EmployeeView = new JButton("직원");
 
-		btnPanel.setLayout(new GridLayout(4, 1, 5, 5));
+		btnPanel.setLayout(null);
 		btnPanel.add(btn_OrderView);
+		btn_OrderView.setBounds(240, 250, 150, 50);
 		btnPanel.add(btn_StockView);
+		btn_StockView.setBounds(430, 250, 150, 50);
 		btnPanel.add(btn_SalesView);
+		btn_SalesView.setBounds(240, 320, 150, 50);
 		btnPanel.add(btn_EmployeeView);
-		btnPanel.setSize(20, 15);
+		btn_EmployeeView.setBounds(430, 320, 150, 50);
+		
+		img_Top = new JLabel();
+		img_Top.setBorder(new EmptyBorder(5, 5, 5, 5));
+		img_Top.setBounds(0,0, 800, 105);
+		img_Top.setIcon(new ImageIcon("./src/img/maintop.PNG"));
+		btnPanel.add(img_Top);
 
 		cardPanel = new JPanel(card);
 		cardPanel.add(btnPanel, "btnPanel");

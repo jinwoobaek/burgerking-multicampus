@@ -32,10 +32,11 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 	public EmployeeView() {
 		addLayout(); // 화면설계
+		connectDB(); // db 연결
 		eventProc();
 	}
 
-	public void addLayout() {
+	void addLayout() {
 
 		tf_EmpNo = new JTextField();
 		tf_EmpName = new JTextField();
@@ -57,7 +58,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 		tb_ModelEmployee = new EmployeeTableModel();
 
-		// ************화면구성************
+		// ************화면구성**************************
 		// 왼쪽영역
 		JPanel p_west = new JPanel();
 		p_west.setLayout(new BorderLayout());
@@ -109,13 +110,15 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 		// 전체 화면에 왼쪽 오른쪽 붙이기
 		setLayout(new GridLayout(1, 2));
-
 		add(p_west);
 		add(p_east);
 
 	}
-
-	public void eventProc() {
+	void connectDB() {
+		
+	}
+	
+	void eventProc() {
 
 		btn_Regist.addActionListener(this);
 		btn_Modify.addActionListener(this);

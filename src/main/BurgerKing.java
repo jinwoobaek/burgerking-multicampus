@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import view.EmployeeView;
 import view.OrderView;
+import view.StockView;
 
 public class BurgerKing implements ActionListener {
 
@@ -22,6 +23,7 @@ public class BurgerKing implements ActionListener {
 
 	EmployeeView empView;
 	OrderView orderView;
+	StockView stockView;
 
 	public BurgerKing() {
 		addLayout();
@@ -56,10 +58,12 @@ public class BurgerKing implements ActionListener {
 		cardPanel.add(btnPanel, "btnPanel");
 
 		empView = new EmployeeView();
-		orderView= new OrderView();
-		
+		orderView = new OrderView();
+		stockView = new StockView();
+
 		cardPanel.add(empView, "empView");
-		cardPanel.add(orderView,"orderView");
+		cardPanel.add(orderView, "orderView");
+		cardPanel.add(stockView, "stockView");
 		f.add(cardPanel);
 
 		f.setSize(800, 600);
@@ -77,8 +81,9 @@ public class BurgerKing implements ActionListener {
 		if (evt == btn_OrderView) {
 			card.show(cardPanel, "orderView");
 			f.setSize(850, 800);
-			
+
 		} else if (evt == btn_StockView) {
+			card.show(cardPanel, "stockView");
 
 		} else if (evt == btn_SalesView) {
 

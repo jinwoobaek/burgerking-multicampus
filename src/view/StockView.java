@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -36,7 +37,7 @@ public class StockView extends JPanel implements ActionListener {
 		eventProc();
 	}
 
-	void addLayout() {
+	public void addLayout() {
 		tf_StockNo = new JTextField();
 		tf_StockName = new JTextField();
 		tf_ValidPeriod = new JTextField();
@@ -56,9 +57,9 @@ public class StockView extends JPanel implements ActionListener {
 		// *********화면 구성*******************************
 		// 맨위쪽
 		JPanel p_north = new JPanel();
-		p_north.setLayout(new BorderLayout());
+		p_north.setLayout(new GridLayout(1, 2));
 
-		// 맨위 왼쪽
+		// 맨위>왼쪽
 		JPanel p_north_west = new JPanel();
 		p_north_west.setLayout(new GridLayout(3, 4));
 		p_north_west.add(new JLabel("제품코드"));
@@ -73,29 +74,36 @@ public class StockView extends JPanel implements ActionListener {
 		p_north_west.add(tf_Quantity);
 		p_north_west.setBorder(new TitledBorder("재고 관리"));
 
-		// 맨위 오른쪽
+		// 맨위>오른쪽
 		JPanel p_north_east = new JPanel();
 		p_north_east.setLayout(new GridLayout(2, 1));
-		// 맨위 오른쪽 위
+		// 맨위>오른쪽>위
 		JPanel p_north_east_1 = new JPanel();
 		p_north_east_1.setLayout(new FlowLayout());
 		p_north_east_1.add(com_StockSearch);
 		p_north_east_1.add(tf_StockSearch);
-
-		// 맨위 오른쪽 아래
+		// 맨위>오른쪽>아래
 		JPanel p_north_east_2 = new JPanel();
 		p_north_east_2.setLayout(new GridLayout(1, 3));
 		p_north_east_2.add(btn_Import);
 		p_north_east_2.add(btn_Export);
 		p_north_east_2.add(btn_Home);
-		// 맨위 오른쪽 위아래 합체
+		// 맨위>오른쪽>위아래 합체
 		p_north_east.add(p_north_east_1);
 		p_north_east.add(p_north_east_2);
+		// 위쪽 합체
+		p_north.add(p_north_west);
+		p_north.add(p_north_east);
+
+		// 아래쪽 (테이블)
+		JPanel p_south = new JPanel();
+		p_south.setLayout(new BorderLayout());
+		p_south.add(new JScrollPane(tableStock));
 
 		// 전체 화면에 위아래 붙이기
-		setLayout(new GridLayout(1, 2));
-		add(p_north);
-		// add(p_east);
+		setLayout(new BorderLayout());
+		add(p_north, BorderLayout.NORTH);
+		add(p_south, BorderLayout.CENTER);
 
 	}
 

@@ -1,26 +1,29 @@
+import java.awt.CardLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import view.EmployeeView;
 
 public class BurgerKing implements ActionListener {
 
+	
 	JFrame f;
 	public static CardLayout card;
 	JPanel btnPanel, cardPanel;
 	JButton btn_OrderView, btn_StockView, btn_SalesView, btn_EmployeeView;
 
+	EmployeeView empView;
 	public BurgerKing() {
 		addLayout();
 		eventProc();
+		
 	}
 
-	public static void main(String[] args) {
-		new BurgerKing();
-	}
 
 	void eventProc() {
 		btn_OrderView.addActionListener(this);
@@ -47,7 +50,9 @@ public class BurgerKing implements ActionListener {
 
 		cardPanel = new JPanel(card);
 		cardPanel.add(btnPanel, "btnPanel");
-
+		
+		empView = new EmployeeView();
+		cardPanel.add(empView,"empView");
 		f.add(cardPanel);
 
 		f.setSize(800, 600);
@@ -63,7 +68,7 @@ public class BurgerKing implements ActionListener {
 		Object evt = e.getSource();
 
 		if (evt == btn_OrderView) {
-			card.show(cardPanel, "pan");
+			card.show(cardPanel, "empView");
 		} else if (evt == btn_StockView) {
 
 		} else if (evt == btn_SalesView) {
@@ -72,6 +77,10 @@ public class BurgerKing implements ActionListener {
 
 		}
 
+	}
+	
+	public static void main(String[] args) {
+		new BurgerKing();
 	}
 
 }

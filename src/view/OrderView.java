@@ -10,17 +10,21 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import main.BurgerKing;
 
 
 public class OrderView extends JPanel implements ActionListener {
 	
 	
 	JTabbedPane  tab_Menu;
-	JPanel pane_Order_Main, pane_Right,  pane_BurgerMenu, pane_BeverageMenu;
+	JPanel pane_Order_Main, pane_Right, pane_Left,  pane_BurgerMenu, pane_BeverageMenu;
+	JScrollPane jsp;
 	JTextField tf_subtotal, tf_discount, tf_total;
 	String[] text = new String[10];
 	JTextArea selectedItems;
@@ -36,7 +40,7 @@ public class OrderView extends JPanel implements ActionListener {
 //	Item items[]=new Item[count]; //상품배열
 	JButton[] itembtn = new JButton[count]; // 버튼배열
 	
-	JButton btnpay, btndiscount, btnadd, btncancle;
+	JButton btnpay, btndiscount, btnadd, btncancle, bhome;
 	String[] cardOption = new String[3];
 	String[] paymentOption = new String[6];
 	JTextField tf_receivedMoney, tf_change;
@@ -62,18 +66,22 @@ public class OrderView extends JPanel implements ActionListener {
 			
 		setLayout(new BorderLayout());
 		temp="";
-		tab_Menu = new JTabbedPane();
 		pane_Order_Main = new JPanel();
 		pane_Order_Main.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pane_Order_Main.setLayout(null);
+		tab_Menu = new JTabbedPane();
+		pane_Left = new JPanel(new BorderLayout());
+		pane_Right = new JPanel();
 		pane_BurgerMenu = new JPanel();
-		tab_Menu.setBounds(12, 10, 380, 744);
+		pane_Order_Main.add(pane_Left);
+		
+		pane_Left.setBounds(12, 10, 380, 744);
 		pane_BurgerMenu.setLayout(new GridLayout(3, 3, 0, 0));
+		
+		pane_Left.add(tab_Menu,BorderLayout.CENTER);
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
 		
-		
 
-		pane_Order_Main.add(pane_BurgerMenu);
 		btnNewButton = new JButton("(아이스)아메리카노");
 		pane_BurgerMenu.add(btnNewButton);
 		itembtn[0] = btnNewButton;
@@ -123,15 +131,6 @@ public class OrderView extends JPanel implements ActionListener {
 		tf_total.setBounds(166, 516, 149, 27);
 		pane_Right.add(tf_total);
 
-		btnpay = new JButton("결제");
-		btnpay.setBounds(213, 642, 107, 40);
-		pane_Right.add(btnpay);
-		btnpay.addActionListener(this);
-
-		btndiscount = new JButton("할인적용");
-		btndiscount.setBounds(94, 642, 107, 40);
-		btndiscount.addActionListener(this);
-		pane_Right.add(btndiscount);
 		
 		JLabel lblNewLabel = new JLabel("                  제품명                 단가       수량        금액");
 		lblNewLabel.setBounds(0, 0, 392, 40);
@@ -159,19 +158,33 @@ public class OrderView extends JPanel implements ActionListener {
 		lb_Change.setBounds(53, 584, 121, 40);
 		pane_Right.add(lb_Change);
 		
+		
+		btnpay = new JButton("결제");
+		btnpay.setBounds(160, 642, 107, 40);
+		btnpay.addActionListener(this);
+		pane_Right.add(btnpay);
+		
+		btndiscount = new JButton("할인적용");
+		btndiscount.setBounds(40, 642, 107, 40);
+		btndiscount.addActionListener(this);
+		pane_Right.add(btndiscount);
+		
+		bhome = new JButton("홈으로");
+		bhome.setBounds(280, 642, 107, 40);
+		bhome.addActionListener(this);
+		pane_Right.add(bhome);
+		
+		
 		btncancle = new JButton("취소");
-		btncancle.setBounds(213, 692, 107, 40);
+		btncancle.setBounds(160, 692, 107, 40);
 		btncancle.addActionListener(this);
 		pane_Right.add(btncancle);
 		
 		btnadd = new JButton("메뉴추가");
-		btnadd.setBounds(94, 692, 107, 40);
+		btnadd.setBounds(40, 692, 107, 40);
 		btnadd.addActionListener(this);
 		pane_Right.add(btnadd);
 		add(pane_Order_Main);
-		
-		
-		
 		
 
 		cardOption[0]="SKT";
@@ -266,6 +279,9 @@ public class OrderView extends JPanel implements ActionListener {
 //				items[i].initialize();
 //			}
 			return;
+		} else if(evt == bhome){
+			BurgerKing.card.first(BurgerKing.cardPanel);
+			BurgerKing.f.setSize(800, 600);
 		}
 		
 		for (int i = 0; i < count; i++) { //메뉴 중 하나 누르면

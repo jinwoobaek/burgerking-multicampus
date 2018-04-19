@@ -5,11 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +21,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import main.BurgerKing;
+import model.StockModel;
+import vo.Employee;
+import vo.Stock;
 
 public class StockView extends JPanel implements ActionListener {
 
@@ -31,10 +37,18 @@ public class StockView extends JPanel implements ActionListener {
 
 	StockTableModel tb_ModelStock;
 
+	StockModel model;
+
 	public StockView() {
 		addLayout(); // 화면설계
+		initStyle();
 		connectDB(); // db 연결
 		eventProc();
+	}
+
+	public void initStyle() {
+		tf_StockNo.setEditable(false);
+		tf_EnteringDate.setEditable(false);
 	}
 
 	public void addLayout() {
@@ -53,6 +67,7 @@ public class StockView extends JPanel implements ActionListener {
 		tf_StockSearch = new JTextField(15);
 
 		tb_ModelStock = new StockTableModel();
+		tableStock = new JTable(tb_ModelStock);
 
 		// *********화면 구성*******************************
 		// 맨위쪽
@@ -108,13 +123,45 @@ public class StockView extends JPanel implements ActionListener {
 	}
 
 	void connectDB() {
-
+		try {
+			model = new StockModel();
+			System.out.println("자재관리 연결성공");
+		} catch (Exception e) {
+			System.out.println("자재관리 연결실패");
+			e.printStackTrace();
+		}
 	}
 
 	void eventProc() {
 		btn_Import.addActionListener(this);
 		btn_Export.addActionListener(this);
 		btn_Home.addActionListener(this);
+		tf_StockSearch.addActionListener(this);
+
+		tableStock.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableStock.getSelectedRow();
+				int col = 0;
+				int no = (int) tableStock.getValueAt(row, col);
+				Stock vo = new Stock();
+
+				try {
+					vo = model.selectByPk(no);
+				} catch (Exception ex) {
+					System.out.println("클릭 이벤트 실패 : " + ex.getMessage());
+				}
+
+				tf_StockNo.setText(String.valueOf(no));
+				tf_StockName.setText(vo.getStockName());
+				tf_ValidPeriod.setText(String.valueOf(vo.getValidPeriod()));
+				tf_EnteringDate.setText(vo.getEnteringDate());
+				tf_Amount.setText(String.valueOf(vo.getAmount()));
+
+			}
+		});
+
 	}
 
 	@Override
@@ -122,6 +169,39 @@ public class StockView extends JPanel implements ActionListener {
 		Object evt = e.getSource();
 		if (evt == btn_Home) {
 			BurgerKing.card.first(BurgerKing.cardPanel);
+		} else if (evt == btn_Import) {
+			importStock();
+			searchStock();
+		} else if (evt == tf_StockSearch) {
+			searchStock();
+		}
+	}
+
+	void importStock() {
+		Stock vo = new Stock();
+		vo.setStockName(tf_StockName.getText());
+		vo.setValidPeriod(Integer.parseInt(tf_ValidPeriod.getText()));
+		vo.setAmount(Integer.parseInt(tf_Amount.getText()));
+
+		try {
+			model.importStock(vo);
+		} catch (Exception e) {
+			System.out.println("자재 입고 실패 : " + e.getMessage());
+		}
+		JOptionPane.showMessageDialog(null, "자재 입고 성공");
+	}
+
+	void searchStock() {
+		int idx = com_StockSearch.getSelectedIndex();
+		String str = tf_StockSearch.getText();
+
+		try {
+			ArrayList data = model.searchStock(idx, str);
+			tb_ModelStock.data = data;
+			tableStock.setModel(tb_ModelStock);
+			tb_ModelStock.fireTableDataChanged();
+		} catch (Exception e) {
+			System.out.println("검색 실패 : " + e.getMessage());
 		}
 	}
 }

@@ -21,7 +21,7 @@ import main.BurgerKing;
 
 public class StockView extends JPanel implements ActionListener {
 
-	JTextField tf_StockNo, tf_StockName, tf_Quantity, tf_ValidPeriod, tf_EnteringDate;
+	JTextField tf_StockNo, tf_StockName, tf_Amount, tf_ValidPeriod, tf_EnteringDate;
 	JButton btn_Import, btn_Export, btn_Home;
 
 	JComboBox com_StockSearch;
@@ -42,7 +42,7 @@ public class StockView extends JPanel implements ActionListener {
 		tf_StockName = new JTextField();
 		tf_ValidPeriod = new JTextField();
 		tf_EnteringDate = new JTextField();
-		tf_Quantity = new JTextField();
+		tf_Amount = new JTextField();
 
 		btn_Import = new JButton("입고");
 		btn_Export = new JButton("출고");
@@ -71,7 +71,7 @@ public class StockView extends JPanel implements ActionListener {
 		p_north_west.add(new JLabel("입고일"));
 		p_north_west.add(tf_EnteringDate);
 		p_north_west.add(new JLabel("수량"));
-		p_north_west.add(tf_Quantity);
+		p_north_west.add(tf_Amount);
 		p_north_west.setBorder(new TitledBorder("재고 관리"));
 
 		// 맨위>오른쪽

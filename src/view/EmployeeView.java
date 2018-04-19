@@ -180,12 +180,15 @@ public class EmployeeView extends JPanel implements ActionListener {
 			BurgerKing.f.setSize(1050, 700);
 		} else if (evt == btn_Regist) {
 			registEmp();
+			searchEmp();
 		} else if (evt == tf_EmpSearch) {
 			searchEmp();
 		} else if (evt == btn_Modify) {
 			modifyEmp();
+			searchEmp();
 		} else if (evt == btn_Delete) {
-			// Emp();
+			fireEmp();
+			searchEmp();
 		}
 
 	}
@@ -219,8 +222,6 @@ public class EmployeeView extends JPanel implements ActionListener {
 		} catch (Exception e) {
 			System.out.println("검색 실패 : " + e.getMessage());
 		}
-		JOptionPane.showMessageDialog(null, "검색 성공");
-
 	}
 
 	void modifyEmp() {
@@ -240,6 +241,18 @@ public class EmployeeView extends JPanel implements ActionListener {
 			System.out.println("직원 정보 수정 실패 : " + e.getMessage());
 		}
 		JOptionPane.showMessageDialog(null, "직원 정보 수정 성공");
+	}
+
+	void fireEmp() {
+		int emp_No = Integer.parseInt(tf_EmpNo.getText());
+
+		try {
+			model.fireEmp(emp_No);
+		} catch (Exception e) {
+			System.out.println("삭제실패 : " + e.getMessage());
+		}
+		JOptionPane.showMessageDialog(null, "삭제완료");
+
 	}
 
 }

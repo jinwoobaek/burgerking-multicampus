@@ -84,7 +84,7 @@ public class EmployeeModel {
 	public void modifyEmp(Employee vo) throws Exception {
 		String sql = "UPDATE table_employee SET emp_name = ?, id_no = ?, gender = ?, addr = ?, job = ?, salary = ? WHERE emp_no = ? ";
 		PreparedStatement ps = con.prepareStatement(sql);
-		
+
 		ps.setString(1, vo.getEmpName());
 		ps.setString(2, vo.getIdNo());
 		ps.setString(3, vo.getGender());
@@ -92,9 +92,19 @@ public class EmployeeModel {
 		ps.setString(5, vo.getJob());
 		ps.setInt(6, vo.getSalary());
 		ps.setInt(7, vo.getEmpNo());
-		
+
 		ps.executeUpdate();
-		
+
+		ps.close();
+	}
+
+	public void fireEmp(int emp_No) throws Exception {
+		String sql = "DELETE FROM table_Employee WHERE emp_No = " + emp_No;
+
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ps.executeUpdate();
+
 		ps.close();
 	}
 

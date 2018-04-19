@@ -2,22 +2,18 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 
 import view.EmployeeView;
 import view.OrderView;
@@ -30,7 +26,7 @@ public class BurgerKing  {
 	JPanel btnPanel;
 	public static JPanel cardPanel;
 	JLabel btn_OrderView, btn_StockView, btn_SalesView, btn_EmployeeView;
-	JLabel img_Top;
+	JLabel img_Top, img_Bot;
 
 	EmployeeView empView;
 	OrderView orderView;
@@ -62,24 +58,29 @@ public class BurgerKing  {
 		
 
 		btnPanel.setLayout(null);
-		btnPanel.setBackground(Color.WHITE);
+		btnPanel.setBackground(new Color(146, 21, 15));
 		btnPanel.add(btn_OrderView);
-		btn_OrderView.setBounds(40, 220, 250, 250);
+		btn_OrderView.setBounds(40, 180, 250, 250);
 		btnPanel.add(btn_StockView);
-		btn_StockView.setBounds(280, 220, 250, 250);
+		btn_StockView.setBounds(280, 180, 250, 250);
 		btnPanel.add(btn_SalesView);
-		btn_SalesView.setBounds(520, 220, 250, 250);
+		btn_SalesView.setBounds(520, 180, 250, 250);
 		btnPanel.add(btn_EmployeeView);
-		btn_EmployeeView.setBounds(770, 220, 250, 260);
+		btn_EmployeeView.setBounds(770, 180, 250, 260);
 		
 		img_Top = new JLabel();
-		img_Top.setBorder(new EmptyBorder(5, 5, 5, 5));
 		img_Top.setBounds(0,0, 1050, 105);
 		img_Top.setIcon(new ImageIcon("./src/img/maintop.PNG"));
+		img_Top.setBorder(new LineBorder(new Color(204, 204, 204),1));
 		btnPanel.add(img_Top);
 		
+		img_Bot= new JLabel();
+		img_Bot.setBounds(0,695, 1050, 54);
+		img_Bot.setIcon(new ImageIcon("./src/img/mainbot.PNG"));
+		btnPanel.add(img_Bot);
 		
-			btn_OrderView.setIcon(new ImageIcon("./src/img/ordericon_normal.PNG"));	
+		
+			btn_OrderView.setIcon(new ImageIcon("./src/img/order_normal.PNG"));	
 			btn_StockView.setIcon(new ImageIcon("./src/img/stock_normal.PNG"));
 			btn_SalesView.setIcon(new ImageIcon("./src/img/sales_normal.PNG"));
 			btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_normal.PNG"));
@@ -110,7 +111,7 @@ public class BurgerKing  {
 			Object evt = e.getSource();
 
 			if (evt == btn_OrderView) {
-				btn_OrderView.setIcon(new ImageIcon("./src/img/ordericon_normal.PNG"));
+				btn_OrderView.setIcon(new ImageIcon("./src/img/order_normal.PNG"));
 			} else if (evt == btn_StockView) {
 				btn_StockView.setIcon(new ImageIcon("./src/img/stock_normal.PNG"));
 			} else if (evt == btn_SalesView) {
@@ -126,11 +127,11 @@ public class BurgerKing  {
 			Object evt = e.getSource();
 
 			if (evt == btn_OrderView) {
-				btn_OrderView.setIcon(new ImageIcon("./src/img/ordericon_pushed.PNG"));
+				btn_OrderView.setIcon(new ImageIcon("./src/img/order_pushed.PNG"));
 			} else if (evt == btn_StockView) {
 				btn_StockView.setIcon(new ImageIcon("./src/img/stock_pushed.PNG"));
 			} else if (evt == btn_SalesView) {
-				btn_SalesView.setIcon(new ImageIcon("./src/img/sales_pushed.jpg"));
+				btn_SalesView.setIcon(new ImageIcon("./src/img/sales_pushed.png"));
 			} else if (evt == btn_EmployeeView) {
 				btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_pushed.PNG"));
 			}

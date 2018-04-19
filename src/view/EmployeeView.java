@@ -19,7 +19,7 @@ import javax.swing.table.AbstractTableModel;
 import main.BurgerKing;
 
 public class EmployeeView extends JPanel implements ActionListener {
-	JTextField tf_EmpNo, tf_EmpName, tf_IdNo, tf_Gender, tf_Addr, tf_Job, tf_Salary, tf_Home;
+	JTextField tf_EmpNo, tf_EmpName, tf_IdNo, tf_Gender, tf_Addr, tf_Job, tf_Salary;
 	JButton btn_Regist, btn_Modify, btn_Delete, btn_Home;
 
 	JComboBox com_EmpSearch;
@@ -45,8 +45,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		tf_Addr = new JTextField();
 		tf_Job = new JTextField();
 		tf_Salary = new JTextField();
-		tf_Home = new JTextField();
-
+		
 		btn_Regist = new JButton("직원등록");
 		btn_Modify = new JButton("정보변경");
 		btn_Delete = new JButton("집으로가");

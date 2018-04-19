@@ -3,11 +3,12 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +34,7 @@ public class OrderView extends JPanel implements ActionListener {
 	JTextArea selectedItems;
 	String temp;
 	JOptionPane jOption;
-	JButton btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4;
+	JLabel btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4;
 	JLabel lblNewLabel, lb_Discount, lb_Subtotal, lb_Sum, lb_Received, lb_Change;
 	
 	
@@ -41,7 +42,7 @@ public class OrderView extends JPanel implements ActionListener {
 	int subtotal = 0; 
 	int count = 4;
 //	Item items[]=new Item[count]; //상품배열
-	JButton[] itembtn = new JButton[count]; // 버튼배열
+	JLabel[] itembtn = new JLabel[count]; // 버튼배열
 	
 	JButton btnpay, btndiscount, btnadd, btncancle, bhome;
 	String[] cardOption = new String[3];
@@ -57,11 +58,11 @@ public class OrderView extends JPanel implements ActionListener {
 	}
 	
 		void evntProc(){
-			itembtn[0].addActionListener(this);
-			itembtn[1].addActionListener(this);
-			itembtn[2].addActionListener(this);
-			itembtn[3].addActionListener(this);
-			
+//			itembtn[0].addActionListener(this);
+//			itembtn[1].addActionListener(this);
+//			itembtn[2].addActionListener(this);
+//			itembtn[3].addActionListener(this);
+//			
 			
 		}
 	
@@ -70,7 +71,7 @@ public class OrderView extends JPanel implements ActionListener {
 		setLayout(new BorderLayout());
 		temp="";
 		pane_Order_Main = new JPanel();
-		pane_Order_Main.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pane_Order_Main.setBackground(new Color(187, 34, 26));
 		pane_Order_Main.setLayout(null);
 		tab_Menu = new JTabbedPane();
 		pane_Left = new JPanel(new BorderLayout());
@@ -82,36 +83,29 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_BurgerMenu.setLayout(new GridLayout(3, 3, 0, 0));
 		
 		pane_Left.add(tab_Menu,BorderLayout.CENTER);
-	//	tab_Menu.setOpaque(true);
-		tab_Menu.setUI(new MetalTabbedPaneUI() {
-		      @Override
-		      protected int calculateTabWidth(int tabPlacement, int tabIndex,
-		          FontMetrics metrics) {
-		        int width = super.calculateTabWidth(tabPlacement, tabIndex, metrics);
-		        int extra = tabIndex * 50;
-		        return width + extra;
-		      }
-		    });
-//		tab_Menu.setBackground(new Color(146, 21, 15));
 		
+		tab_Menu.setOpaque(true);
+		tab_Menu.setBackground(new Color(187, 34, 26));
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
+		pane_BurgerMenu.setBackground(new Color(146, 21, 15));
 		
 		
 
-		btnNewButton = new JButton("(아이스)아메리카노");
+		btnNewButton = new JLabel();
 		pane_BurgerMenu.add(btnNewButton);
 		itembtn[0] = btnNewButton;
+		btnNewButton.setIcon(getIcon("./src/img/트러플콰트로.png", 200, 350));
 //		items[0]=new Item(itembtn[0].getText(),3800,0);
 
-		btnNewButton2 = new JButton("(아이스)카페라떼");
+		btnNewButton2 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton2);
 		itembtn[1] = btnNewButton2;
 
-		btnNewButton3 = new JButton("(아이스)카라멜마끼아또");
+		btnNewButton3 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton3);
 		itembtn[2] = btnNewButton3;
 
-		btnNewButton4 = new JButton("(아이스)카페모카");
+		btnNewButton4 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton4);
 		itembtn[3] = btnNewButton4;
 
@@ -228,7 +222,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton evt = (JButton) e.getSource();
+		Object evt =  e.getSource();
 
 		if (evt == btnpay) { //결제버튼 누르면
 				if(dcafter==0)
@@ -338,6 +332,12 @@ public class OrderView extends JPanel implements ActionListener {
 		selectedItems.setText(temp);
 		
 	}
+	
+	public ImageIcon getIcon(String name, int width, int height) {
+	      return new ImageIcon(new ImageIcon
+	    		  ("src\\view\\chickimg\\"+name+".png").getImage().getScaledInstance
+	    		  (width, height, Image.SCALE_DEFAULT));
+	   }
 	
 	
 }

@@ -69,7 +69,7 @@ public class BurgerKing {
 
 		img_Top = new JLabel();
 		img_Top.setBounds(0, 0, 1050, 105);
-		img_Top.setIcon(new ImageIcon("./src/img/maintop.PNG"));
+		img_Top.setIcon(new ImageIcon("./src/img/maintop.png"));
 		img_Top.setBorder(new LineBorder(new Color(204, 204, 204), 1));
 		btnPanel.add(img_Top);
 

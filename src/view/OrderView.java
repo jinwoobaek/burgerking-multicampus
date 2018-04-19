@@ -281,7 +281,7 @@ public class OrderView extends JPanel implements ActionListener {
 			return;
 		} else if(evt == bhome){
 			BurgerKing.card.first(BurgerKing.cardPanel);
-			BurgerKing.f.setSize(800, 600);
+			BurgerKing.f.setSize(1050, 700);
 		}
 		
 		for (int i = 0; i < count; i++) { //메뉴 중 하나 누르면

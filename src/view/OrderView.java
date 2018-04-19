@@ -1,7 +1,9 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.MetalTabbedPaneUI;
 
 import main.BurgerKing;
 
@@ -79,7 +82,20 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_BurgerMenu.setLayout(new GridLayout(3, 3, 0, 0));
 		
 		pane_Left.add(tab_Menu,BorderLayout.CENTER);
+	//	tab_Menu.setOpaque(true);
+		tab_Menu.setUI(new MetalTabbedPaneUI() {
+		      @Override
+		      protected int calculateTabWidth(int tabPlacement, int tabIndex,
+		          FontMetrics metrics) {
+		        int width = super.calculateTabWidth(tabPlacement, tabIndex, metrics);
+		        int extra = tabIndex * 50;
+		        return width + extra;
+		      }
+		    });
+//		tab_Menu.setBackground(new Color(146, 21, 15));
+		
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
+		
 		
 
 		btnNewButton = new JButton("(아이스)아메리카노");

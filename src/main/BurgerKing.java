@@ -19,7 +19,7 @@ import view.EmployeeView;
 import view.OrderView;
 import view.StockView;
 
-public class BurgerKing  {
+public class BurgerKing {
 
 	public static JFrame f;
 	public static CardLayout card;
@@ -55,7 +55,6 @@ public class BurgerKing  {
 		btn_StockView = new JLabel();
 		btn_SalesView = new JLabel();
 		btn_EmployeeView = new JLabel();
-		
 
 		btnPanel.setLayout(null);
 		btnPanel.setBackground(new Color(146, 21, 15));
@@ -67,23 +66,22 @@ public class BurgerKing  {
 		btn_SalesView.setBounds(520, 180, 250, 250);
 		btnPanel.add(btn_EmployeeView);
 		btn_EmployeeView.setBounds(770, 180, 250, 260);
-		
+
 		img_Top = new JLabel();
-		img_Top.setBounds(0,0, 1050, 105);
+		img_Top.setBounds(0, 0, 1050, 105);
 		img_Top.setIcon(new ImageIcon("./src/img/maintop.PNG"));
-		img_Top.setBorder(new LineBorder(new Color(204, 204, 204),1));
+		img_Top.setBorder(new LineBorder(new Color(204, 204, 204), 1));
 		btnPanel.add(img_Top);
-		
-		img_Bot= new JLabel();
-		img_Bot.setBounds(0,695, 1050, 54);
+
+		img_Bot = new JLabel();
+		img_Bot.setBounds(0, 695, 1050, 54);
 		img_Bot.setIcon(new ImageIcon("./src/img/mainbot.PNG"));
 		btnPanel.add(img_Bot);
-		
-		
-			btn_OrderView.setIcon(new ImageIcon("./src/img/order_normal.PNG"));	
-			btn_StockView.setIcon(new ImageIcon("./src/img/stock_normal.PNG"));
-			btn_SalesView.setIcon(new ImageIcon("./src/img/sales_normal.PNG"));
-			btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_normal.PNG"));
+
+		btn_OrderView.setIcon(new ImageIcon("./src/img/order_normal.PNG"));
+		btn_StockView.setIcon(new ImageIcon("./src/img/stock_normal.PNG"));
+		btn_SalesView.setIcon(new ImageIcon("./src/img/sales_normal.PNG"));
+		btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_normal.PNG"));
 
 		cardPanel = new JPanel(card);
 		cardPanel.add(btnPanel, "btnPanel");
@@ -103,8 +101,8 @@ public class BurgerKing  {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-	
-	MouseListener mlsner = new MouseAdapter(){
+
+	MouseListener mlsner = new MouseAdapter() {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
@@ -119,9 +117,9 @@ public class BurgerKing  {
 			} else if (evt == btn_EmployeeView) {
 				btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_normal.PNG"));
 			}
-			
+
 		}
-		
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			Object evt = e.getSource();
@@ -136,9 +134,8 @@ public class BurgerKing  {
 				btn_EmployeeView.setIcon(new ImageIcon("./src/img/employee_pushed.PNG"));
 			}
 
-			
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Object evt = e.getSource();
@@ -155,10 +152,9 @@ public class BurgerKing  {
 			} else if (evt == btn_EmployeeView) {
 				card.show(cardPanel, "empView");
 			}
-			
+
 		}
 	};
-
 
 	public static void main(String[] args) {
 		BurgerKing burgerking = new BurgerKing();

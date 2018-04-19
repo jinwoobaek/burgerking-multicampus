@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +20,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import main.BurgerKing;
+import model.EmployeeModel;
+import vo.Employee;
 
 public class EmployeeView extends JPanel implements ActionListener {
 	JTextField tf_EmpNo, tf_EmpName, tf_IdNo, tf_Gender, tf_Addr, tf_Job, tf_Salary;
@@ -24,16 +29,22 @@ public class EmployeeView extends JPanel implements ActionListener {
 
 	JComboBox com_EmpSearch;
 	JTextField tf_EmpSearch;
+
 	JTable tableEmployee;
 
 	EmployeeTableModel tb_ModelEmployee;
 
-	// tableVideo = new JTable(tbModelVideo);
+	EmployeeModel model;
 
 	public EmployeeView() {
 		addLayout(); // 화면설계
+		initStyle();
 		connectDB(); // db 연결
 		eventProc();
+	}
+
+	public void initStyle() {
+		tf_EmpNo.setEditable(false);
 	}
 
 	void addLayout() {
@@ -45,7 +56,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		tf_Addr = new JTextField();
 		tf_Job = new JTextField();
 		tf_Salary = new JTextField();
-		
+
 		btn_Regist = new JButton("직원등록");
 		btn_Modify = new JButton("정보변경");
 		btn_Delete = new JButton("집으로가");
@@ -56,6 +67,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		tf_EmpSearch = new JTextField(15);
 
 		tb_ModelEmployee = new EmployeeTableModel();
+		tableEmployee = new JTable(tb_ModelEmployee);
 
 		// ************화면구성**************************
 		// 왼쪽영역
@@ -113,16 +125,50 @@ public class EmployeeView extends JPanel implements ActionListener {
 		add(p_east);
 
 	}
+
 	void connectDB() {
-		
+		try {
+			model = new EmployeeModel();
+			System.out.println("직원관리 연결성공");
+		} catch (Exception e) {
+			System.out.println("직원관리 연결실패");
+			e.printStackTrace();
+		}
 	}
-	
+
 	void eventProc() {
 
 		btn_Regist.addActionListener(this);
 		btn_Modify.addActionListener(this);
 		btn_Delete.addActionListener(this);
 		btn_Home.addActionListener(this);
+		tf_EmpSearch.addActionListener(this);
+
+		// 테이블에서 목록 클릭시 왼쪽에 정보 띄어줌
+		tableEmployee.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableEmployee.getSelectedRow();
+				int col = 0;
+				int no = (int) tableEmployee.getValueAt(row, col);
+				Employee vo = new Employee();
+
+				try {
+					vo = model.selectByPk(no);
+				} catch (Exception ex) {
+					System.out.println("클릭 이벤트 실패 : " + ex.getMessage());
+				}
+
+				tf_EmpNo.setText(String.valueOf(no));
+				tf_EmpName.setText(vo.getEmpName());
+				tf_IdNo.setText(vo.getIdNo());
+				tf_Gender.setText(vo.getGender());
+				tf_Addr.setText(vo.getAddr());
+				tf_Job.setText(vo.getJob());
+				tf_Salary.setText(String.valueOf(vo.getSalary()));
+			}
+		});
 
 	}
 
@@ -132,8 +178,68 @@ public class EmployeeView extends JPanel implements ActionListener {
 		if (evt == btn_Home) {
 			BurgerKing.card.first(BurgerKing.cardPanel);
 			BurgerKing.f.setSize(1050, 700);
+		} else if (evt == btn_Regist) {
+			registEmp();
+		} else if (evt == tf_EmpSearch) {
+			searchEmp();
+		} else if (evt == btn_Modify) {
+			modifyEmp();
+		} else if (evt == btn_Delete) {
+			// Emp();
 		}
 
+	}
+
+	void registEmp() {
+		Employee vo = new Employee();
+		vo.setEmpName(tf_EmpName.getText());
+		vo.setIdNo(tf_IdNo.getText());
+		vo.setGender(tf_Gender.getText());
+		vo.setAddr(tf_Addr.getText());
+		vo.setJob(tf_Job.getText());
+		vo.setSalary(Integer.parseInt(tf_Salary.getText()));
+
+		try {
+			model.registEmp(vo);
+		} catch (Exception e) {
+			System.out.println("직원 등록 실패 : " + e.getMessage());
+		}
+		JOptionPane.showMessageDialog(null, "직원 등록 성공");
+	}
+
+	void searchEmp() {
+		int idx = com_EmpSearch.getSelectedIndex();
+		String str = tf_EmpSearch.getText();
+
+		try {
+			ArrayList data = model.searchEmp(idx, str);
+			tb_ModelEmployee.data = data;
+			tableEmployee.setModel(tb_ModelEmployee);
+			tb_ModelEmployee.fireTableDataChanged();
+		} catch (Exception e) {
+			System.out.println("검색 실패 : " + e.getMessage());
+		}
+		JOptionPane.showMessageDialog(null, "검색 성공");
+
+	}
+
+	void modifyEmp() {
+		Employee vo = new Employee();
+
+		vo.setEmpNo(Integer.parseInt(tf_EmpNo.getText()));
+		vo.setEmpName(tf_EmpName.getText());
+		vo.setIdNo(tf_IdNo.getText());
+		vo.setGender(tf_Gender.getText());
+		vo.setAddr(tf_Addr.getText());
+		vo.setJob(tf_Job.getText());
+		vo.setSalary(Integer.parseInt(tf_Salary.getText()));
+
+		try {
+			model.modifyEmp(vo);
+		} catch (Exception e) {
+			System.out.println("직원 정보 수정 실패 : " + e.getMessage());
+		}
+		JOptionPane.showMessageDialog(null, "직원 정보 수정 성공");
 	}
 
 }
@@ -142,7 +248,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 class EmployeeTableModel extends AbstractTableModel {
 
 	ArrayList data = new ArrayList();
-	String[] columnNames = { "사원번호", "이름", "주민등록번호", "감독", "배우" };
+	String[] columnNames = { "사원번호", "이름", "주민등록번호", "성별", "주소", "직책", "연봉" };
 
 	// =============================================================
 	// 1. 기본적인 TabelModel 만들기

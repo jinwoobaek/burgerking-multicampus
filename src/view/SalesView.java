@@ -71,7 +71,7 @@ public class SalesView extends JPanel implements ActionListener {
 		// 라디오 버튼 패널
 		JPanel p_rbp = new JPanel();
 		p_rbp.setLayout(new GridLayout(1, 3));
-		
+
 		String[] rbTypeChoice = { "일", "월", "년" };
 		group = new ButtonGroup();
 		rb_TypeChoice = new JRadioButton[3];

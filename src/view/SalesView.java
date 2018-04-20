@@ -6,11 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -21,7 +22,8 @@ public class SalesView extends JPanel implements ActionListener {
 	JComboBox com_Year, com_Month, com_Day, com_TypeChoice;
 	JButton btn_Home;
 	JTextField tf_TotalSales, tf_TotalOrders;
-
+	JRadioButton[] rb_TypeChoice;
+	ButtonGroup group;
 	// 년 월 일 핸들링 할 배열 선언
 	Integer[] strY = new Integer[11]; // 대충 10년 (이건 임의로 설정한값임)
 	Integer[] strM = new Integer[12]; // 월 12달
@@ -44,10 +46,10 @@ public class SalesView extends JPanel implements ActionListener {
 	void addLayout() {
 
 		CalendarTest();
-		com_TypeChoice = new JComboBox();
+
 		btn_Home = new JButton("홈으로");
-		tf_TotalSales = new JTextField();
-		tf_TotalOrders = new JTextField();
+		tf_TotalSales = new JTextField(15);
+		tf_TotalOrders = new JTextField(15);
 
 		// 위쪽
 		JPanel p_north = new JPanel();
@@ -63,9 +65,27 @@ public class SalesView extends JPanel implements ActionListener {
 		p_north_west_north.add(new JLabel("월"));
 		p_north_west_north.add(com_Day);
 		p_north_west_north.add(new JLabel("일"));
-		// 위>왼쪽>아래 추가해야함 @@@@@@@@@@@@@@@@@@@@@@@@@
+		// 위>왼쪽>아래
+		JPanel p_north_west_south = new JPanel();
+		p_north_west_south.setLayout(new GridLayout(1, 2));
+		// 라디오 버튼 패널
+		JPanel p_rbp = new JPanel();
+		p_rbp.setLayout(new GridLayout(1, 3));
+		
+		String[] rbTypeChoice = { "일", "월", "년" };
+		group = new ButtonGroup();
+		rb_TypeChoice = new JRadioButton[3];
+		for (int i = 0; i < rb_TypeChoice.length; i++) {
+			rb_TypeChoice[i] = new JRadioButton(rbTypeChoice[i]);
+			group.add(rb_TypeChoice[i]);
+			p_rbp.add(rb_TypeChoice[i]);
+		}
+
+		p_north_west_south.add(btn_Home);
+		p_north_west_south.add(p_rbp);
+		// 위>왼쪽>위아래>합체
 		p_north_west.add(p_north_west_north);
-		p_north_west.add(btn_Home);
+		p_north_west.add(p_north_west_south);
 		// 위>오른쪽
 		JPanel p_north_east = new JPanel();
 		p_north_east.setLayout(new GridLayout(2, 2));

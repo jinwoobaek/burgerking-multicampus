@@ -150,6 +150,7 @@ public class BurgerKing {
 
 			} else if (evt == btn_SalesView) {
 				card.show(cardPanel, "salesView");
+				f.setSize(500, 500);
 			} else if (evt == btn_EmployeeView) {
 				card.show(cardPanel, "empView");
 			}

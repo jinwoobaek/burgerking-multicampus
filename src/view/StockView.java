@@ -109,7 +109,6 @@ public class StockView extends JPanel implements ActionListener {
 		// 위쪽 합체
 		p_north.add(p_north_west);
 		p_north.add(p_north_east);
-
 		// 아래쪽 (테이블)
 		JPanel p_south = new JPanel();
 		p_south.setLayout(new BorderLayout());

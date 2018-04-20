@@ -2,7 +2,6 @@ package main;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,12 +10,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 import view.EmployeeView;
 import view.OrderView;
+import view.SalesView;
 import view.StockView;
 
 public class BurgerKing {
@@ -31,6 +29,7 @@ public class BurgerKing {
 	EmployeeView empView;
 	OrderView orderView;
 	StockView stockView;
+	SalesView salesView;
 
 	public BurgerKing() {
 		addLayout();
@@ -89,10 +88,12 @@ public class BurgerKing {
 		empView = new EmployeeView();
 		orderView = new OrderView();
 		stockView = new StockView();
+		salesView = new SalesView();
 
 		cardPanel.add(empView, "empView");
 		cardPanel.add(orderView, "orderView");
 		cardPanel.add(stockView, "stockView");
+		cardPanel.add(salesView, "salesView");
 		f.add(cardPanel);
 
 		f.setSize(1050, 700);
@@ -148,7 +149,7 @@ public class BurgerKing {
 				card.show(cardPanel, "stockView");
 
 			} else if (evt == btn_SalesView) {
-
+				card.show(cardPanel, "salesView");
 			} else if (evt == btn_EmployeeView) {
 				card.show(cardPanel, "empView");
 			}

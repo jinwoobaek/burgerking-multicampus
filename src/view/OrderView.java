@@ -23,11 +23,14 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import main.BurgerKing;
+import model.EmployeeModel;
+import model.OrderModel;
 
 public class OrderView extends JPanel implements ActionListener {
 
@@ -44,6 +47,8 @@ public class OrderView extends JPanel implements ActionListener {
 	JTable tableOrder;
 	OrderTableModel tb_ModelOrder;
 	JScrollPane jsp_table;
+	OrderModel model;
+	ArrayList data;
 
 	int dcafter;
 	int subtotal = 0;
@@ -60,6 +65,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 		addLayout();
 		evntProc();
+		connectDB();
 
 	}
 
@@ -70,6 +76,16 @@ public class OrderView extends JPanel implements ActionListener {
 		// itembtn[3].addActionListener(this);
 		//
 
+	}
+	
+	void connectDB() {
+		try {
+			model = new OrderModel();
+			System.out.println("주문관리 연결성공");
+		} catch (Exception e) {
+			System.out.println("주문관리 연결실패");
+			e.printStackTrace();
+		}
 	}
 
 	void addLayout() { // 화면 구성***************
@@ -95,27 +111,32 @@ public class OrderView extends JPanel implements ActionListener {
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
 		pane_BurgerMenu.setBackground(new Color(146, 21, 15));
 
-		btnNewButton = new JLabel();
+		btnNewButton = new JLabel("트러플콰트로");
+		btnNewButton.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton);
 		itembtn[0] = btnNewButton;
-		btnNewButton.setIcon(getIcon("트러플콰트로", 150, 200));
+		btnNewButton.setIcon(getIcon("트러플콰트로", 170, 220));
 		// items[0]=new Item(itembtn[0].getText(),3800,0);
 
 		btnNewButton2 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton2);
 		itembtn[1] = btnNewButton2;
+		btnNewButton2.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		btnNewButton3 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton3);
 		itembtn[2] = btnNewButton3;
+		btnNewButton3.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		btnNewButton4 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton4);
 		itembtn[3] = btnNewButton4;
+		btnNewButton4.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		pane_Right = new JPanel();
 		pane_Right.setBounds(408, 30, 406, 724);
 		pane_Right.setBackground(new Color(146, 21, 15));
+		pane_Right.setBorder(new LineBorder(new Color(204, 204, 204),2));
 		pane_Order_Main.add(pane_Right);
 		pane_Right.setLayout(null);
 
@@ -332,21 +353,38 @@ public class OrderView extends JPanel implements ActionListener {
 
 	}
 
-	MouseListener mlstner = new MouseAdapter() {
+	MouseListener mlstnr = new MouseAdapter() {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-
+			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-
+			
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-
+			Object evt= e.getSource();
+			
+			if(evt==itembtn[0]){
+				try {
+					ArrayList temp = new ArrayList();
+					temp= model.addMenuTabel(itembtn[0].getText());
+					temp.add("1");
+					temp.add(temp.get(2).toString());
+					data.add(temp);
+					
+					
+				} catch (Exception e1) {
+					
+				}
+				
+			}
+			
+			
 		}
 	};
 

@@ -109,6 +109,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		JPanel p_east = new JPanel();
 		p_east.setLayout(new BorderLayout());
 
+		
 		// 오른쪽 위
 		JPanel p_east_north = new JPanel();
 		p_east_north.add(com_EmpSearch);

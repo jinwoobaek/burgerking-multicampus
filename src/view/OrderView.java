@@ -70,17 +70,19 @@ public class OrderView extends JPanel implements ActionListener {
 	}
 
 	void evntProc() {
-		// itembtn[0].addActionListener(this);
-		// itembtn[1].addActionListener(this);
-		// itembtn[2].addActionListener(this);
-		// itembtn[3].addActionListener(this);
-		//
+		 itembtn[0].addMouseListener(mlstnr);
+//		 btnNewButton.addMouseListener(mlstnr);
+//		 itembtn[1].addActionListener(mlstnr);
+//		 itembtn[2].addActionListener(this);
+//		 itembtn[3].addActionListener(this);
+//		
 
 	}
 	
 	void connectDB() {
 		try {
 			model = new OrderModel();
+			data = new ArrayList();
 			System.out.println("주문관리 연결성공");
 		} catch (Exception e) {
 			System.out.println("주문관리 연결실패");
@@ -111,7 +113,7 @@ public class OrderView extends JPanel implements ActionListener {
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
 		pane_BurgerMenu.setBackground(new Color(146, 21, 15));
 
-		btnNewButton = new JLabel("트러플콰트로");
+		btnNewButton = new JLabel("트러플콰트로머쉬룸버거");
 		btnNewButton.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton);
 		itembtn[0] = btnNewButton;
@@ -313,33 +315,33 @@ public class OrderView extends JPanel implements ActionListener {
 			BurgerKing.card.first(BurgerKing.cardPanel);
 			BurgerKing.f.setSize(1050, 700);
 		}
-
-		for (int i = 0; i < count; i++) { // 메뉴 중 하나 누르면
-			if (evt == itembtn[i]) {
-				// int subresult = subtotal(items[i].getPrice());
-				// tf_subtotal.setText(Integer.toString(subresult));
-				// 소계 누적계산
-
-				// items[i].btnCount+=1; // 동일 메뉴 누른 횟수 누적
-				//
-				// if(items[i].exist==true){ // 이전에 동일한 메뉴를 누른적이 있는 경우
-				// text[items[i].clickOrder]=
-				// (String.format("%13s\t%d\t%2d %6d\n",
-				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
-				// (items[i].getPrice()*items[i].getBtnCount())));
-				break;
-			} else { // 누른 메뉴가 이전에 없는경우
-				//
-				// text[Item.clickOrderCount]=
-				// (String.format("%13s\t%d\t%2d %6d\n",
-				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
-				// (items[i].getPrice()*items[i].getBtnCount())));
-				// items[i].clickOrder=Item.clickOrderCount;
-				// items[i].exist=true;
-				// Item.clickOrderCount++;
-				break;
-			}
-		}
+//
+//		for (int i = 0; i < count; i++) { // 메뉴 중 하나 누르면
+//			if (evt == itembtn[i]) {
+//				// int subresult = subtotal(items[i].getPrice());
+//				// tf_subtotal.setText(Integer.toString(subresult));
+//				// 소계 누적계산
+//
+//				// items[i].btnCount+=1; // 동일 메뉴 누른 횟수 누적
+//				//
+//				// if(items[i].exist==true){ // 이전에 동일한 메뉴를 누른적이 있는 경우
+//				// text[items[i].clickOrder]=
+//				// (String.format("%13s\t%d\t%2d %6d\n",
+//				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
+//				// (items[i].getPrice()*items[i].getBtnCount())));
+//				break;
+//			} else { // 누른 메뉴가 이전에 없는경우
+//				//
+//				// text[Item.clickOrderCount]=
+//				// (String.format("%13s\t%d\t%2d %6d\n",
+//				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
+//				// (items[i].getPrice()*items[i].getBtnCount())));
+//				// items[i].clickOrder=Item.clickOrderCount;
+//				// items[i].exist=true;
+//				// Item.clickOrderCount++;
+//				break;
+//			}
+//		}
 		// }
 
 		temp = "";
@@ -374,12 +376,25 @@ public class OrderView extends JPanel implements ActionListener {
 					ArrayList temp = new ArrayList();
 					temp= model.addMenuTabel(itembtn[0].getText());
 					temp.add("1");
-					temp.add(temp.get(2).toString());
+					temp.add(temp.get(1).toString());
+					
+					if(data.contains(temp.get(0).toString())){
+						
+						
+					}
+					
+					
 					data.add(temp);
+					tb_ModelOrder.data= data;
+					tableOrder.setModel(tb_ModelOrder);
+					tb_ModelOrder.fireTableDataChanged();
+					System.out.println("test");
+					
 					
 					
 				} catch (Exception e1) {
-					
+					System.out.println("POS오류: " +e1.getMessage());
+					e1.printStackTrace();
 				}
 				
 			}

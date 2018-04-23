@@ -15,7 +15,7 @@ public class OrderModel {
 		con = DBCon.getConnection();
 	}
 
-	public ArrayList addMenuTabel(String name) throws Exception {
+	public ArrayList getMenuInfo(String name) throws Exception {
 		String sql = "SELECT * FROM TABLE_MENU WHERE MENU_NAME= ? ";
 
 		PreparedStatement ps = con.prepareStatement(sql);
@@ -35,31 +35,20 @@ public class OrderModel {
 		 return data;
 	}
 
-	public ArrayList searchStock(int idx, String str) throws Exception {
-		String[] key = { "stock_Name", "stock_No" };
-		String sql = "SELECT * FROM table_stock WHERE " + key[idx] + " LIKE '%" + str + "%'";
+	public void orderHistory(String menuName,int count, String totalPrice) throws Exception {
+		
+		
+		String sql = "INSERT INTO TABLE_ORDER VALUES (ORDER_NO_SEQUENCE.NEXTVAL, ? ,10020 ,SYSDATE, ?) ";
 
 		System.out.println(sql);
 		PreparedStatement ps = con.prepareStatement(sql);
-		ResultSet rs = ps.executeQuery();
+		ps.setString(1, menuName/*+"외 "+count+"개"*/);
+		ps.setString(2, totalPrice);
+		ps.executeUpdate();
 
-		ArrayList data = new ArrayList();
-
-		while (rs.next()) {
-			ArrayList temp = new ArrayList();
-			temp.add(rs.getInt("STOCK_NO"));
-			temp.add(rs.getString("STOCK_NAME"));
-			temp.add(rs.getInt("VALID_PERIOD"));
-			temp.add(rs.getString("ENTERING_DATE"));
-			temp.add(rs.getInt("AMOUNT"));
-
-			data.add(temp);
-		}
-
-		rs.close();
+		
 		ps.close();
 
-		return data;
 	}
 
 	public Stock selectByPk(int no) throws Exception {

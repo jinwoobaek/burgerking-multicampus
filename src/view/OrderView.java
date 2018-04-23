@@ -48,13 +48,13 @@ public class OrderView extends JPanel implements ActionListener {
 	OrderTableModel tb_ModelOrder;
 	JScrollPane jsp_table;
 	OrderModel model;
-	ArrayList data;
+	ArrayList<ArrayList> data;
 
 	int dcafter;
 	int subtotal = 0;
 	int count = 4;
 	// Item items[]=new Item[count]; //상품배열
-	JLabel[] itembtn = new JLabel[count]; // 버튼배열
+	ArrayList<JLabel>itembtn =  new ArrayList<JLabel>(); // 버튼배열
 
 	JButton btnpay, btndiscount, btnadd, btncancle, bhome;
 	String[] cardOption = new String[3];
@@ -70,7 +70,7 @@ public class OrderView extends JPanel implements ActionListener {
 	}
 
 	void evntProc() {
-		 itembtn[0].addMouseListener(mlstnr);
+		 itembtn.get(0).addMouseListener(mlstnr);
 //		 btnNewButton.addMouseListener(mlstnr);
 //		 itembtn[1].addActionListener(mlstnr);
 //		 itembtn[2].addActionListener(this);
@@ -116,23 +116,23 @@ public class OrderView extends JPanel implements ActionListener {
 		btnNewButton = new JLabel("트러플콰트로머쉬룸버거");
 		btnNewButton.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton);
-		itembtn[0] = btnNewButton;
+		itembtn.add(btnNewButton);
 		btnNewButton.setIcon(getIcon("트러플콰트로", 170, 220));
 		// items[0]=new Item(itembtn[0].getText(),3800,0);
 
 		btnNewButton2 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton2);
-		itembtn[1] = btnNewButton2;
+		itembtn.add(btnNewButton2);
 		btnNewButton2.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		btnNewButton3 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton3);
-		itembtn[2] = btnNewButton3;
+		itembtn.add(btnNewButton3);
 		btnNewButton3.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		btnNewButton4 = new JLabel();
 		pane_BurgerMenu.add(btnNewButton4);
-		itembtn[3] = btnNewButton4;
+		itembtn.add(btnNewButton4);
 		btnNewButton4.setIcon(getIcon("트러플콰트로", 170, 220));
 
 		pane_Right = new JPanel();
@@ -371,24 +371,35 @@ public class OrderView extends JPanel implements ActionListener {
 		public void mouseClicked(MouseEvent e) {
 			Object evt= e.getSource();
 			
-			if(evt==itembtn[0]){
+			if(evt==itembtn.get(0)){
 				try {
 					ArrayList temp = new ArrayList();
-					temp= model.addMenuTabel(itembtn[0].getText());
-					temp.add("1");
-					temp.add(temp.get(1).toString());
 					
-					if(data.contains(temp.get(0).toString())){
+					temp= model.addMenuTabel(itembtn.get(0).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
+					
+					for(int i=0; i< data.size(); i++){	 // 이전 선택 목록 중
+					if((data.get(i)).contains(temp.get(0))){ //같은 메뉴를 선택한 이력이 있으면
+						 data.get(i).set(2, Integer.parseInt( data.get(i).get(2).toString())+1); //수량을 1 늘려줌
+						data.get(i).set(3,
+							 Integer.parseInt(data.get(i).get(1).toString())
+							*Integer.parseInt(data.get(i).get(2).toString()));  // 단가와 갯수를 곱하여 금액컬럼에 저장
 						
+						tb_ModelOrder.data= data;
+						tableOrder.setModel(tb_ModelOrder);
+						tb_ModelOrder.fireTableDataChanged();
 						
-					}
+						return;  //목록에 추가하지 않고 수량만 1 늘리고 종료
+						
+					 }
+					} // 이전에 같은 메뉴를 선택한 이력이 없으면
 					
 					
+					temp.add("1");						//제품명,단가를 버퍼에 저장 후 갯수정보 1을 저장
+					temp.add(temp.get(1).toString());  // 선택갯수 1개이므로 단가 = 금액
 					data.add(temp);
 					tb_ModelOrder.data= data;
 					tableOrder.setModel(tb_ModelOrder);
 					tb_ModelOrder.fireTableDataChanged();
-					System.out.println("test");
 					
 					
 					

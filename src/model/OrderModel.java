@@ -23,7 +23,6 @@ public class OrderModel {
 		ps.setString(1, name);
 		ResultSet rs=ps.executeQuery();
 		
-		System.out.println(rs);
 		ArrayList data = new ArrayList();
 
 		rs.next();

@@ -24,6 +24,7 @@ import org.jfree.chart.JFreeChart;
 
 import main.BurgerKing;
 import model.SalesModel;
+import vo.Sales;
 
 public class SalesView extends JPanel implements ActionListener {
 
@@ -38,6 +39,7 @@ public class SalesView extends JPanel implements ActionListener {
 
 	SalesModel model;
 	ChartView chart;
+	int totalMoney;
 
 	ChartPanel cp;
 	JPanel p_view = new JPanel();
@@ -171,10 +173,12 @@ public class SalesView extends JPanel implements ActionListener {
 			p_view.removeAll();
 			ymd = 'M';
 			chartView();
+			totalSalesDay();
 		} else if (evt == rb_TypeChoice[2]) {
 			p_view.removeAll();
 			ymd = 'Y';
 			chartView();
+			totalSalesDay();
 		}
 
 	}
@@ -198,14 +202,16 @@ public class SalesView extends JPanel implements ActionListener {
 	}
 
 	void totalSalesDay() {
+		Sales vo = new Sales();
 		try {
-			model = new SalesModel();
-			int totalmoney = model.totalSalesDay();
+			vo = model.totalSalesDay();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+		tf_TotalSales.setText(String.valueOf(vo.getTotalSales()));
+		tf_TotalOrders.setText(String.valueOf(vo.getTotalCount()));
 	}
 
 }

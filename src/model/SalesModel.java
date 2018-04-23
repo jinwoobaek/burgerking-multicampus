@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import vo.Order;
+import vo.Sales;
 
 public class SalesModel {
 	Connection con;
 
-	int resultMoney_day;
+	int TotalSales;
+	int TotalCount;
 
 	public SalesModel() throws Exception {
 		con = DBCon.getConnection();
@@ -79,19 +81,21 @@ public class SalesModel {
 		return list;
 	}
 
-	public int totalSalesDay() throws Exception {
-		String sql = "SELECT sum(total_price) total_price_day FROM table_order WHERE order_time LIKE sysdate";
+	public Sales totalSalesDay() throws Exception {
+		Sales vo = new Sales();
+		String sql = "SELECT sum(total_price) total_sales,count(*) total_count FROM table_order";
 
 		PreparedStatement ps = con.prepareStatement(sql);
 
 		ResultSet rs = ps.executeQuery();
 
 		if (rs.next()) {
-			resultMoney_day = rs.getInt("TOTAL_PRICE_DAY");
+			vo.setTotalSales(rs.getInt("TOTAL_SALES"));
+			vo.setTotalCount(rs.getInt("TOTAL_COUNT"));
 		}
 
 		ps.close();
 
-		return resultMoney_day;
+		return vo;
 	}
 }

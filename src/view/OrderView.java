@@ -35,14 +35,16 @@ import model.OrderModel;
 public class OrderView extends JPanel implements ActionListener {
 
 	JTabbedPane tab_Menu;
-	JPanel pane_Order_Main, pane_Right, pane_Left, pane_BurgerMenu, pane_BeverageMenu, pane_sideMenu;
+	JPanel pane_Order_Main, pane_Right, pane_Left, pane_BurgerMenu, 
+			pane_BeverageMenu, pane_SideMenu;
 	JScrollPane jsp_tabpane;
 	JTextField tf_subtotal, tf_discount, tf_total;
 	String[] text = new String[10];
 	JTextArea selectedItems;
 	String temp;
 	JOptionPane jOption;
-	JLabel btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4, btnNewButton5;
+	JLabel btnNewButton, btnNewButton2, btnNewButton3, 
+		btnNewButton4, btnNewButton5, btnNewButton6;
 	JLabel lblNewLabel, lb_Discount, lb_Subtotal, lb_Sum, lb_Received, lb_Change;
 	JTable tableOrder;
 	OrderTableModel tb_ModelOrder;
@@ -56,6 +58,7 @@ public class OrderView extends JPanel implements ActionListener {
 	// Item items[]=new Item[count]; //상품배열
 	ArrayList<JLabel>burgerList =  new ArrayList<JLabel>(); // 버거버튼배열
 	ArrayList<JLabel>beverageList =  new ArrayList<JLabel>(); // 음료버튼 배열
+	ArrayList<JLabel>sideList =  new ArrayList<JLabel>(); // 사이드버튼 배열
 
 	JButton btnpay, btndiscount, btnadd, btncancle, bhome;
 	String[] cardOption = new String[3];
@@ -78,6 +81,10 @@ public class OrderView extends JPanel implements ActionListener {
 		
 		for(int i=0; i<beverageList.size();i++){
 			 beverageList.get(i).addMouseListener(mlstnr);
+			}
+		
+		for(int i=0; i<sideList.size();i++){
+			sideList.get(i).addMouseListener(mlstnr);
 			}
 		
 		 tf_receivedMoney.addActionListener(this);
@@ -107,12 +114,13 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_Right = new JPanel();
 		pane_BurgerMenu = new JPanel();
 		pane_BeverageMenu= new JPanel();
-		pane_sideMenu=new JPanel();
+		pane_SideMenu=new JPanel();
 		pane_Order_Main.add(pane_Left);
 
 		pane_Left.setBounds(12, 10, 380, 744);
 		pane_BurgerMenu.setLayout(new GridLayout(3, 3, 0, 0));
 		pane_BeverageMenu.setLayout(new GridLayout(3, 3,0,0));
+		pane_SideMenu.setLayout(new GridLayout(3, 3, 0, 0));
 
 		pane_Left.add(tab_Menu, BorderLayout.CENTER);
 
@@ -123,8 +131,8 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_BurgerMenu.setBackground(new Color(146, 21, 15));
 		tab_Menu.addTab("음료류",pane_BeverageMenu);
 		pane_BeverageMenu.setBackground(new Color(146, 21, 15));
-		tab_Menu.addTab("사이드", pane_sideMenu);
-		pane_sideMenu.setBackground(new Color(146, 21, 15));
+		tab_Menu.addTab("사이드", pane_SideMenu);
+		pane_SideMenu.setBackground(new Color(146, 21, 15));
 
 		btnNewButton = new JLabel("트러플콰트로머쉬룸버거");
 		btnNewButton.setForeground(new Color(0, 0, 0,0));
@@ -155,6 +163,13 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_BeverageMenu.add(btnNewButton5);
 		beverageList.add(btnNewButton5);
 		btnNewButton5.setIcon(getIcon("코카콜라", 170, 220));
+		
+		btnNewButton6 = new JLabel("프렌치프라이");
+		btnNewButton6.setForeground(new Color(0, 0, 0, 0));
+		pane_SideMenu.add(btnNewButton6);
+		sideList.add(btnNewButton6);
+		btnNewButton6.setIcon(getIcon("감튀", 170, 220));
+		
 
 		pane_Right = new JPanel();
 		pane_Right.setBounds(408, 30, 406, 724);
@@ -438,6 +453,40 @@ public class OrderView extends JPanel implements ActionListener {
 					if(evt==beverageList.get(inx)){
 							
 						temp= model.getMenuInfo(beverageList.get(inx).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
+						
+							for(int i=0; i< data.size(); i++){	 // 이전 선택 목록 중
+							
+							if((data.get(i)).contains(temp.get(0))){ //같은 메뉴를 선택한 이력이 있으면
+								 data.get(i).set(2, Integer.parseInt( data.get(i).get(2).toString())+1); //수량을 1 늘려줌
+								data.get(i).set(3,
+									 Integer.parseInt(data.get(i).get(1).toString())
+									*Integer.parseInt(data.get(i).get(2).toString()));  // 단가와 갯수를 곱하여 금액컬럼에 저장
+														
+								subtotal=0;  // 소계 계산
+								for(int j =0; j<data.size();j++){
+									subtotal = subtotal+ Integer.parseInt(data.get(j).get(3).toString());
+								}
+								tf_subtotal.setText(Integer.toString(subtotal));
+								
+								tb_ModelOrder.data= data;
+								tableOrder.setModel(tb_ModelOrder);
+								tb_ModelOrder.fireTableDataChanged();
+								
+								
+								return;  //목록에 추가하지 않고 수량만 1 늘리고 종료
+								
+							 }
+							} 
+						}
+							
+					  }
+				
+			}else if (sideList.contains(evt)){
+				
+				for(int inx=0; inx<sideList.size();inx++){
+					if(evt==sideList.get(inx)){
+							
+						temp= model.getMenuInfo(sideList.get(inx).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
 						
 							for(int i=0; i< data.size(); i++){	 // 이전 선택 목록 중
 							

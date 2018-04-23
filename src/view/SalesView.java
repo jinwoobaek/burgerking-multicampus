@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
@@ -167,6 +166,7 @@ public class SalesView extends JPanel implements ActionListener {
 			p_view.removeAll();
 			ymd = 'D';
 			chartView();
+			totalSalesDay();
 		} else if (evt == rb_TypeChoice[1]) {
 			p_view.removeAll();
 			ymd = 'M';
@@ -195,6 +195,17 @@ public class SalesView extends JPanel implements ActionListener {
 		p_view.add(cp);
 		add(p_view, BorderLayout.CENTER);
 		validate();
+	}
+
+	void totalSalesDay() {
+		try {
+			model = new SalesModel();
+			int totalmoney = model.totalSalesDay();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -10,6 +10,8 @@ import vo.Order;
 public class SalesModel {
 	Connection con;
 
+	int resultMoney_day;
+
 	public SalesModel() throws Exception {
 		con = DBCon.getConnection();
 	}
@@ -75,5 +77,21 @@ public class SalesModel {
 		// 6.닫기(Connection 은 제외)
 		ps.close();
 		return list;
+	}
+
+	public int totalSalesDay() throws Exception {
+		String sql = "SELECT sum(total_price) total_price_day FROM table_order WHERE order_time LIKE sysdate";
+
+		PreparedStatement ps = con.prepareStatement(sql);
+
+		ResultSet rs = ps.executeQuery();
+
+		if (rs.next()) {
+			resultMoney_day = rs.getInt("TOTAL_PRICE_DAY");
+		}
+
+		ps.close();
+
+		return resultMoney_day;
 	}
 }

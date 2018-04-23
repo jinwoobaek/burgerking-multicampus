@@ -23,7 +23,7 @@ public class ChartView extends JPanel {
 	// getChart() 메서드. Chart 를 만들어서 리턴함
 	public JFreeChart getChart(String startDay, String endDay, char ymd) {
 
-		JFreeChart chart = ChartFactory.createLineChart("매출 관리", // title			
+		JFreeChart chart = ChartFactory.createLineChart("Show Me The Money", // title			
 				"Date", // categoryAxisLabel
 				"Sales Of Day", // valueAxisLabel
 				getDataSet(startDay, endDay, ymd), // dataset

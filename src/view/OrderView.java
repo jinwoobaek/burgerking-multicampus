@@ -35,14 +35,14 @@ import model.OrderModel;
 public class OrderView extends JPanel implements ActionListener {
 
 	JTabbedPane tab_Menu;
-	JPanel pane_Order_Main, pane_Right, pane_Left, pane_BurgerMenu, pane_BeverageMenu;
+	JPanel pane_Order_Main, pane_Right, pane_Left, pane_BurgerMenu, pane_BeverageMenu, pane_sideMenu;
 	JScrollPane jsp_tabpane;
 	JTextField tf_subtotal, tf_discount, tf_total;
 	String[] text = new String[10];
 	JTextArea selectedItems;
 	String temp;
 	JOptionPane jOption;
-	JLabel btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4;
+	JLabel btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4, btnNewButton5;
 	JLabel lblNewLabel, lb_Discount, lb_Subtotal, lb_Sum, lb_Received, lb_Change;
 	JTable tableOrder;
 	OrderTableModel tb_ModelOrder;
@@ -71,11 +71,15 @@ public class OrderView extends JPanel implements ActionListener {
 	}
 
 	void evntProc() {
-		 burgerList.get(0).addMouseListener(mlstnr);
-		 burgerList.get(1).addMouseListener(mlstnr);
-//		 itembtn[1].addActionListener(mlstnr);
-//		 itembtn[2].addActionListener(this);
-//		 itembtn[3].addActionListener(this);
+		
+		for(int i=0; i<burgerList.size();i++){
+		 burgerList.get(i).addMouseListener(mlstnr);
+		}
+		
+		for(int i=0; i<beverageList.size();i++){
+			 beverageList.get(i).addMouseListener(mlstnr);
+			}
+		
 		 tf_receivedMoney.addActionListener(this);
 
 	}
@@ -102,24 +106,31 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_Left = new JPanel(new BorderLayout());
 		pane_Right = new JPanel();
 		pane_BurgerMenu = new JPanel();
+		pane_BeverageMenu= new JPanel();
+		pane_sideMenu=new JPanel();
 		pane_Order_Main.add(pane_Left);
 
 		pane_Left.setBounds(12, 10, 380, 744);
 		pane_BurgerMenu.setLayout(new GridLayout(3, 3, 0, 0));
+		pane_BeverageMenu.setLayout(new GridLayout(3, 3,0,0));
 
 		pane_Left.add(tab_Menu, BorderLayout.CENTER);
 
 		tab_Menu.setOpaque(true);
 		tab_Menu.setBackground(new Color(187, 34, 26));
+		tab_Menu.setForeground(new Color(232,75, 0));
 		tab_Menu.addTab("버거류", pane_BurgerMenu);
 		pane_BurgerMenu.setBackground(new Color(146, 21, 15));
+		tab_Menu.addTab("음료류",pane_BeverageMenu);
+		pane_BeverageMenu.setBackground(new Color(146, 21, 15));
+		tab_Menu.addTab("사이드", pane_sideMenu);
+		pane_sideMenu.setBackground(new Color(146, 21, 15));
 
 		btnNewButton = new JLabel("트러플콰트로머쉬룸버거");
 		btnNewButton.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton);
 		burgerList.add(btnNewButton);
 		btnNewButton.setIcon(getIcon("트러플콰트로", 170, 220));
-		// items[0]=new Item(itembtn[0].getText(),3800,0);
 
 		btnNewButton2 = new JLabel("통새우와퍼주니어");
 		btnNewButton2.setForeground(new Color(0, 0, 0,0));
@@ -127,15 +138,23 @@ public class OrderView extends JPanel implements ActionListener {
 		burgerList.add(btnNewButton2);
 		btnNewButton2.setIcon(getIcon("통새우와퍼", 170, 220));
 
-		btnNewButton3 = new JLabel();
+		btnNewButton3 = new JLabel("불고기와퍼");
+		btnNewButton3.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton3);
 		burgerList.add(btnNewButton3);
-		btnNewButton3.setIcon(getIcon("트러플콰트로", 170, 220));
+		btnNewButton3.setIcon(getIcon("불고기와퍼", 170, 220));
 
-		btnNewButton4 = new JLabel();
+		btnNewButton4 = new JLabel("콰트로치즈와퍼");
+		btnNewButton4.setForeground(new Color(0, 0, 0,0));
 		pane_BurgerMenu.add(btnNewButton4);
 		burgerList.add(btnNewButton4);
-		btnNewButton4.setIcon(getIcon("트러플콰트로", 170, 220));
+		btnNewButton4.setIcon(getIcon("콰트로치즈와퍼", 170, 220));
+		
+		btnNewButton5 = new JLabel("코카콜라");
+		btnNewButton5.setForeground(new Color(0, 0, 0,0));
+		pane_BeverageMenu.add(btnNewButton5);
+		beverageList.add(btnNewButton5);
+		btnNewButton5.setIcon(getIcon("코카콜라", 170, 220));
 
 		pane_Right = new JPanel();
 		pane_Right.setBounds(408, 30, 406, 724);
@@ -145,14 +164,17 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_Right.setLayout(null);
 
 		lb_Subtotal = new JLabel("소계");
+		lb_Subtotal.setForeground(new Color(255, 160, 20));
 		lb_Subtotal.setBounds(94, 456, 70, 27);
 		pane_Right.add(lb_Subtotal);
 
 		lb_Discount = new JLabel("할인");
+		lb_Discount.setForeground(new Color(255, 160, 20));
 		lb_Discount.setBounds(94, 479, 60, 27);
 		pane_Right.add(lb_Discount);
 
 		lb_Sum = new JLabel("합계");
+		lb_Sum.setForeground(new Color(255, 160, 20));
 		lb_Sum.setBounds(94, 518, 70, 27);
 		pane_Right.add(lb_Sum);
 
@@ -191,10 +213,12 @@ public class OrderView extends JPanel implements ActionListener {
 		pane_Right.add(tf_change);
 
 		lb_Received = new JLabel("   받은 돈");
+		lb_Received.setForeground(new Color(255, 160, 20));
 		lb_Received.setBounds(53, 539, 111, 40);
 		pane_Right.add(lb_Received);
 
 		lb_Change = new JLabel("거스름 돈");
+		lb_Change.setForeground(new Color(255, 160, 20));
 		lb_Change.setBounds(53, 566, 121, 40);
 		pane_Right.add(lb_Change);
 
@@ -250,7 +274,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 		if (evt == btnpay) { // 결제버튼 누르면
 			if (dcafter == 0)
-//				tf_total.setText(Integer.toString(subtotal));
+				tf_total.setText(Integer.toString(subtotal));
 
 			if (tf_receivedMoney.getText().length() > 0) {
 				if (Integer.parseInt(tf_total.getText()) <= Integer.parseInt(tf_receivedMoney.getText())) {
@@ -351,43 +375,6 @@ public class OrderView extends JPanel implements ActionListener {
 			}
 			
 		}
-//
-//		for (int i = 0; i < count; i++) { // 메뉴 중 하나 누르면
-//			if (evt == itembtn[i]) {
-//				// int subresult = subtotal(items[i].getPrice());
-//				// tf_subtotal.setText(Integer.toString(subresult));
-//				// 소계 누적계산
-//
-//				// items[i].btnCount+=1; // 동일 메뉴 누른 횟수 누적
-//				//
-//				// if(items[i].exist==true){ // 이전에 동일한 메뉴를 누른적이 있는 경우
-//				// text[items[i].clickOrder]=
-//				// (String.format("%13s\t%d\t%2d %6d\n",
-//				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
-//				// (items[i].getPrice()*items[i].getBtnCount())));
-//				break;
-//			} else { // 누른 메뉴가 이전에 없는경우
-//				//
-//				// text[Item.clickOrderCount]=
-//				// (String.format("%13s\t%d\t%2d %6d\n",
-//				// items[i].getName(),items[i].getPrice(),items[i].getBtnCount(),
-//				// (items[i].getPrice()*items[i].getBtnCount())));
-//				// items[i].clickOrder=Item.clickOrderCount;
-//				// items[i].exist=true;
-//				// Item.clickOrderCount++;
-//				break;
-//			}
-//		}
-		// }
-
-		temp = "";
-		for (int i = 0; i < text.length; i++) {
-			if (text[i] != null) {
-				temp += text[i];
-			}
-		}
-//		selectedItems.setText(null);
-//		selectedItems.setText(temp);
 
 	}
 
@@ -407,16 +394,19 @@ public class OrderView extends JPanel implements ActionListener {
 		public void mouseClicked(MouseEvent e) {
 			Object evt= e.getSource();
 			
-			
+			try {
+				
+				ArrayList temp = new ArrayList();
+			if(burgerList.contains(evt)){ // 버거메뉴이면
+				
+				
 			for(int inx=0; inx<burgerList.size();inx++){
 			if(evt==burgerList.get(inx)){
-				try {
-					ArrayList temp = new ArrayList();
 					
-					temp= model.getMenuInfo(burgerList.get(inx).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
-					
+				temp= model.getMenuInfo(burgerList.get(inx).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
+				
 					for(int i=0; i< data.size(); i++){	 // 이전 선택 목록 중
-						
+					
 					if((data.get(i)).contains(temp.get(0))){ //같은 메뉴를 선택한 이력이 있으면
 						 data.get(i).set(2, Integer.parseInt( data.get(i).get(2).toString())+1); //수량을 1 늘려줌
 						data.get(i).set(3,
@@ -437,8 +427,46 @@ public class OrderView extends JPanel implements ActionListener {
 						return;  //목록에 추가하지 않고 수량만 1 늘리고 종료
 						
 					 }
-					} // 이전에 같은 메뉴를 선택한 이력이 없으면
+					}
+				}
 					
+			  }
+			
+			}else if (beverageList.contains(evt)){ // 음료메뉴이면
+				
+				for(int inx=0; inx<beverageList.size();inx++){
+					if(evt==beverageList.get(inx)){
+							
+						temp= model.getMenuInfo(beverageList.get(inx).getText()); // 해당메뉴의 데이터를 DB에서 얻어옴
+						
+							for(int i=0; i< data.size(); i++){	 // 이전 선택 목록 중
+							
+							if((data.get(i)).contains(temp.get(0))){ //같은 메뉴를 선택한 이력이 있으면
+								 data.get(i).set(2, Integer.parseInt( data.get(i).get(2).toString())+1); //수량을 1 늘려줌
+								data.get(i).set(3,
+									 Integer.parseInt(data.get(i).get(1).toString())
+									*Integer.parseInt(data.get(i).get(2).toString()));  // 단가와 갯수를 곱하여 금액컬럼에 저장
+														
+								subtotal=0;  // 소계 계산
+								for(int j =0; j<data.size();j++){
+									subtotal = subtotal+ Integer.parseInt(data.get(j).get(3).toString());
+								}
+								tf_subtotal.setText(Integer.toString(subtotal));
+								
+								tb_ModelOrder.data= data;
+								tableOrder.setModel(tb_ModelOrder);
+								tb_ModelOrder.fireTableDataChanged();
+								
+								
+								return;  //목록에 추가하지 않고 수량만 1 늘리고 종료
+								
+							 }
+							} // 이전에 같은 메뉴를 선택한 이력이 없으면
+						}
+							
+					  }
+				
+			}
 					
 					temp.add("1");						//제품명,단가를 버퍼에 저장 후 갯수정보 1을 저장
 					temp.add(temp.get(1).toString());  // 선택갯수 1개이므로 단가 = 금액
@@ -446,14 +474,12 @@ public class OrderView extends JPanel implements ActionListener {
 					tb_ModelOrder.data= data;
 					tableOrder.setModel(tb_ModelOrder);
 					tb_ModelOrder.fireTableDataChanged();
-					
-					
-				
-				} catch (Exception e1) {
-					System.out.println("POS오류: " +e1.getMessage());
-					e1.printStackTrace();
-					}
-				}
+
+			
+			
+			} catch (Exception e1) {
+				System.out.println("POS오류: " +e1.getMessage());
+				e1.printStackTrace();
 	    	}
 			
 			subtotal=0;

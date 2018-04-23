@@ -44,8 +44,10 @@ public class ChartView extends JPanel {
 			ArrayList<Order> list = null;
 			switch (ymd) {
 			case 'Y':
+				list = model.yearChart(startDay, endDay);
 				break;
 			case 'M':
+				list = model.monthChart(startDay, endDay);
 				break;
 			case 'D':
 				list = model.dayChart(startDay, endDay);

@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
@@ -18,7 +20,6 @@ import javax.swing.border.TitledBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
@@ -38,7 +39,15 @@ public class SalesView extends JPanel implements ActionListener {
 
 	SalesModel model;
 	ChartView chart;
-	
+
+	ChartPanel cp;
+	JPanel p_view = new JPanel();
+	Calendar c = Calendar.getInstance();
+	int year = c.get(Calendar.YEAR);
+	int month = c.get(Calendar.MONTH);
+	int day = c.get(Calendar.DATE);
+
+	String startDay, endDay;
 	char ymd;
 
 	public SalesView() {
@@ -81,6 +90,11 @@ public class SalesView extends JPanel implements ActionListener {
 		startDatePicker = new JDatePickerImpl(startDatePanel, new DateLabelFormatter());
 		endDatePicker = new JDatePickerImpl(endDatePanel, new DateLabelFormatter());
 
+		startDateModel.setDate(year, month, day);
+		startDateModel.setSelected(true);
+		endDateModel.setDate(year, month, day);
+		endDateModel.setSelected(true);
+
 		p_north_west_north.add(startDatePicker, BorderLayout.NORTH);
 		p_north_west_north.add(endDatePicker, BorderLayout.SOUTH);
 
@@ -101,7 +115,7 @@ public class SalesView extends JPanel implements ActionListener {
 		}
 		JPanel p_north_west_south_null = new JPanel();
 		p_north_west_south.setLayout(new FlowLayout());
-		p_north_west_south_null.add(new JLabel("asdfasdfasdf"));
+		p_north_west_south_null.add(new JLabel("분기를 선택 하십시오."));
 
 		p_north_west_south.add(p_north_west_south_null);
 		p_north_west_south.add(p_rbp);
@@ -145,37 +159,41 @@ public class SalesView extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object evt = e.getSource();
-		
-		
 
 		if (evt == btn_Home) {
 			BurgerKing.card.first(BurgerKing.cardPanel);
 			BurgerKing.f.setSize(1050, 700);
 		} else if (evt == rb_TypeChoice[0]) {
-			chartView();
+			p_view.removeAll();
 			ymd = 'D';
-		} else if (evt == rb_TypeChoice[1]) {
 			chartView();
+		} else if (evt == rb_TypeChoice[1]) {
+			p_view.removeAll();
 			ymd = 'M';
+			chartView();
+		} else if (evt == rb_TypeChoice[2]) {
+			p_view.removeAll();
+			ymd = 'Y';
+			chartView();
 		}
 
 	}
 
 	// 차트 붙이기
 	void chartView() {
-		String startDay = String.valueOf(startDateModel.getYear()) + "/" + String.valueOf(startDateModel.getMonth() + 1)
-				+ "/" + String.valueOf(startDateModel.getDay());
-		
-		String endDay = String.valueOf(endDateModel.getYear()) + "/" + String.valueOf(endDateModel.getMonth() + 1) + "/"
+		startDay = String.valueOf(startDateModel.getYear()) + "/" + String.valueOf(startDateModel.getMonth() + 1) + "/"
+				+ String.valueOf(startDateModel.getDay());
+
+		endDay = String.valueOf(endDateModel.getYear()) + "/" + String.valueOf(endDateModel.getMonth() + 1) + "/"
 				+ String.valueOf(endDateModel.getDay());
 
-		System.out.println(startDay);
-		System.out.println(endDay);
 		chart = new ChartView();
 		JFreeChart chart_result = chart.getChart(startDay, endDay, ymd);
-		ChartPanel cp = new ChartPanel(chart_result);
+		cp = new ChartPanel(chart_result);
 		cp.setVisible(true);
-		add(cp, BorderLayout.CENTER);
+
+		p_view.add(cp);
+		add(p_view, BorderLayout.CENTER);
 		validate();
 	}
 

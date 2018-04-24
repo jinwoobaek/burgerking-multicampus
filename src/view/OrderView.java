@@ -48,6 +48,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 	MenuAddView menuView;
 	MenuModel m_Model;
+	ArrayList<ArrayList> menuList;
 
 	int subtotal;
 
@@ -133,47 +134,36 @@ public class OrderView extends JPanel implements ActionListener {
 		tab_Menu.addTab("사이드", pane_SideMenu);
 		pane_SideMenu.setBackground(new Color(146, 21, 15));
 
-		
-		
-		
-		
-//		for(int i = 0;i<sql.count<i++){
-//		JLabel temp =new JLabel("name")
-//		temp.setForeground(new Color(0, 0, 0, 0));
-//		pane_BurgerMenu.add(temp);
-//		temp.setIcon(getIcon("file_name", 170, 220));
-//		burgerList.add(temp);
-//		}
+		try {
+			menuList = new ArrayList();
+			m_Model = new MenuModel();
 
-		btnNewButton2 = new JLabel("통새우와퍼주니어");
-		btnNewButton2.setForeground(new Color(0, 0, 0, 0));
-		pane_BurgerMenu.add(btnNewButton2);
-		burgerList.add(btnNewButton2);
-		btnNewButton2.setIcon(getIcon("통새우와퍼", 170, 220));
+			menuList = m_Model.refreshMenu();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		btnNewButton3 = new JLabel("불고기와퍼");
-		btnNewButton3.setForeground(new Color(0, 0, 0, 0));
-		pane_BurgerMenu.add(btnNewButton3);
-		burgerList.add(btnNewButton3);
-		btnNewButton3.setIcon(getIcon("불고기와퍼", 170, 220));
-
-		btnNewButton4 = new JLabel("콰트로치즈와퍼");
-		btnNewButton4.setForeground(new Color(0, 0, 0, 0));
-		pane_BurgerMenu.add(btnNewButton4);
-		burgerList.add(btnNewButton4);
-		btnNewButton4.setIcon(getIcon("콰트로치즈와퍼", 170, 220));
-
-		btnNewButton5 = new JLabel("코카콜라");
-		btnNewButton5.setForeground(new Color(0, 0, 0, 0));
-		pane_BeverageMenu.add(btnNewButton5);
-		beverageList.add(btnNewButton5);
-		btnNewButton5.setIcon(getIcon("코카콜라", 170, 220));
-
-		btnNewButton6 = new JLabel("프렌치프라이");
-		btnNewButton6.setForeground(new Color(0, 0, 0, 0));
-		pane_SideMenu.add(btnNewButton6);
-		sideList.add(btnNewButton6);
-		btnNewButton6.setIcon(getIcon("감튀", 170, 220));
+		for (int i = 0; i < menuList.size(); i++) {
+			JLabel temp = new JLabel(menuList.get(i).get(0).toString());
+			temp.setForeground(new Color(0, 0, 0, 0));
+			temp.setIcon(getIcon(menuList.get(i).get(1).toString(), 170, 220));
+			int categori = Integer.parseInt(menuList.get(i).get(2).toString());
+			switch (categori) {
+			case 100:
+				burgerList.add(temp);
+				pane_BurgerMenu.add(temp);
+				break;
+			case 200:
+				beverageList.add(temp);
+				pane_BeverageMenu.add(temp);
+				break;
+			case 300:
+				sideList.add(temp);
+				pane_SideMenu.add(temp);
+				break;
+			}
+		}
 
 		pane_Right.setBounds(408, 30, 406, 724);
 		pane_Right.setBackground(new Color(146, 21, 15));
@@ -262,7 +252,6 @@ public class OrderView extends JPanel implements ActionListener {
 
 		btnadd = new JButton("메뉴추가");
 		btnadd.setBounds(40, 674, 107, 40);
-		btnadd.addActionListener(this);
 		pane_Right.add(btnadd);
 		add(pane_Order_Main);
 
@@ -359,10 +348,6 @@ public class OrderView extends JPanel implements ActionListener {
 				text[i] = "";
 			}
 
-			// for(int i =0;i<items.length;i++){
-			// if(items[i]!=null)
-			// items[i].initialize();
-			// }
 			return;
 		} else if (evt == bhome) {
 
@@ -395,16 +380,6 @@ public class OrderView extends JPanel implements ActionListener {
 	}
 
 	MouseListener mlstnr = new MouseAdapter() {
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-
-		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -575,8 +550,8 @@ public class OrderView extends JPanel implements ActionListener {
 	};
 
 	public ImageIcon getIcon(String name, int width, int height) {
-		return new ImageIcon(new ImageIcon("src\\img\\" + name + ".png").getImage().getScaledInstance(width, height,
-				Image.SCALE_DEFAULT));
+		return new ImageIcon(
+				new ImageIcon("src\\img\\" + name).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
 	}
 
 }

@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import model.EmployeeModel;
 import model.MenuModel;
 import vo.Menu;
 
@@ -85,7 +83,7 @@ public class MenuAddView extends JFrame implements ActionListener {
 		add(p_center, BorderLayout.CENTER);
 		add(p_south, BorderLayout.SOUTH);
 
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(this.HIDE_ON_CLOSE);
 		setSize(700, 700);
 		setTitle("Add Menu");
 		setVisible(true);
@@ -107,6 +105,8 @@ public class MenuAddView extends JFrame implements ActionListener {
 
 	void eventProc() {
 		btn_OpenImg.addActionListener(this);
+		btn_Add.addActionListener(this);
+		btn_Cancel.addActionListener(this);
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class MenuAddView extends JFrame implements ActionListener {
 		Object evt = e.getSource();
 
 		if (evt == btn_OpenImg) {
-			JFileChooser fc = new JFileChooser();
+			JFileChooser fc = new JFileChooser("C:\\workspace\\BurgerKing\\src\\img");
 			int result = fc.showOpenDialog(null);
 			String path = null;
 			String fileName = null;
@@ -123,13 +123,12 @@ public class MenuAddView extends JFrame implements ActionListener {
 				File file = fc.getSelectedFile();
 				path = file.getPath();
 				fileName = file.getName();
-				System.out.println(fileName);
 				try {
 					FileReader fr = new FileReader(file);
 					int data;
 					do {
 						data = fr.read();
-						tf_Scr.setText(path);
+						tf_Scr.setText(fileName);
 						img_Area.setIcon(new ImageIcon(path));
 					} while (data != -1);
 
@@ -139,13 +138,12 @@ public class MenuAddView extends JFrame implements ActionListener {
 				}
 
 			}
-			
-		} else if (evt == btn_Add){
-			
+
+		} else if (evt == btn_Add) {
 			insertMenu();
+		} else if (evt == btn_Cancel) {
+			hide();
 		}
-		
-		
 
 	}
 
@@ -155,7 +153,7 @@ public class MenuAddView extends JFrame implements ActionListener {
 		vo.setPrice(Integer.parseInt(tf_Price.getText()));
 		vo.setCategori(Integer.parseInt(tf_Categori.getText()));
 		vo.setSrc(tf_Scr.getText());
-		
+
 		try {
 			model.insertMenu(vo);
 		} catch (Exception e) {
@@ -164,8 +162,4 @@ public class MenuAddView extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, "메뉴 등록 성공");
 	}
 
-	public ImageIcon getIcon(String name, int width, int height) {
-		return new ImageIcon(
-				new ImageIcon("src\\img\\" + name).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
-	}
 }

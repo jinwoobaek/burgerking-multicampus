@@ -9,7 +9,6 @@ import vo.Menu;
 
 public class MenuModel {
 	Connection con;
-	ArrayList data;
 
 	public MenuModel() throws Exception {
 		con = DBCon.getConnection();
@@ -30,15 +29,25 @@ public class MenuModel {
 		ps.close();
 	}
 
-	public void refreshMenu() throws Exception {
-		String sql = "SELECT menu_name, src FROM table_menu ";
-		
+	public ArrayList<ArrayList> refreshMenu() throws Exception {
+		String sql = "SELECT menu_name, src, categori FROM table_menu ";
+
 		PreparedStatement ps = con.prepareStatement(sql);
-		
+
 		ResultSet rs = ps.executeQuery();
-		
-		while(rs.next()){
-			//ArrayList<String> 
+		ArrayList<ArrayList> data = new ArrayList<ArrayList>();
+		while (rs.next()) {
+			ArrayList temp = new ArrayList();
+
+			temp.add(rs.getString("MENU_NAME"));
+			temp.add(rs.getString("SRC"));
+			temp.add(rs.getInt("categori"));
+
+			data.add(temp);
 		}
+		rs.close();
+		ps.close();
+
+		return data;
 	}
 }

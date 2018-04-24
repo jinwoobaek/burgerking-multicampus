@@ -178,7 +178,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		Object evt = e.getSource();
 		if (evt == btn_Home) {
 			BurgerKing.card.first(BurgerKing.cardPanel);
-			BurgerKing.f.setSize(1050, 700);
+			BurgerKing.f.setSize(1060, 700);
 		} else if (evt == btn_Regist) {
 			registEmp();
 			searchEmp();

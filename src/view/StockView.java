@@ -80,11 +80,26 @@ public class StockView extends JPanel implements ActionListener {
 		border = new TitledBorder("");
 
 		btn_Import = new JLabel();
-		btn_Import.setIcon(getIcon("입고", 145, 50));
+		btn_Import.setBounds(10, 0, 160, 45);
+		btn_Import.setOpaque(true);
+		btn_Import.setBackground(Color.BLACK);
+		btn_Import.setIcon(getIcon("입고", 160, 45));
+		
+		
 		btn_Export = new JLabel();
-		btn_Export.setIcon(getIcon("삭제", 145, 50));
+		btn_Export.setBounds(180, 0, 160, 45);
+		btn_Export.setOpaque(true);
+		btn_Export.setBackground(Color.BLACK);
+		btn_Export.setIcon(getIcon("삭제", 160, 45));
+		
+		
 		btn_Home = new JLabel();
-		btn_Home.setIcon(getIcon("홈으로", 145, 50));
+		btn_Home.setBounds(350, 0, 160, 45);
+		btn_Home.setOpaque(true);
+		btn_Home.setBackground(Color.BLACK);
+		btn_Home.setIcon(getIcon("홈으로", 160, 45));
+		
+		
 
 		String[] cbStockSearch = { "품명", "제품코드" };
 		com_StockSearch = new JComboBox(cbStockSearch);
@@ -102,7 +117,7 @@ public class StockView extends JPanel implements ActionListener {
 		// 맨위>왼쪽
 		JPanel p_north_west = new JPanel();
 		p_north_west.setLayout(new GridLayout(3, 4,5,5));
-		p_north_west.setBackground(new Color(146, 21, 15));
+		p_north_west.setBackground(Color.WHITE);
 		p_north_west.add(lb_StockNo);
 		p_north_west.add(tf_StockNo);
 		p_north_west.add(lb_StockName);
@@ -123,13 +138,13 @@ public class StockView extends JPanel implements ActionListener {
 		// 맨위>오른쪽>위
 		JPanel p_north_east_1 = new JPanel();
 		p_north_east_1.setLayout(new FlowLayout());
-		p_north_east_1.setBackground(new Color(146, 21, 15));
+		p_north_east_1.setBackground(Color.WHITE);
 		p_north_east_1.add(com_StockSearch);
 		p_north_east_1.add(tf_StockSearch);
 		// 맨위>오른쪽>아래
 		JPanel p_north_east_2 = new JPanel();
-		p_north_east_2.setLayout(new GridLayout(1, 3));
-		p_north_east_2.setBackground(new Color(146, 21, 15));
+		p_north_east_2.setLayout(null);
+		p_north_east_2.setBackground(Color.WHITE);
 		p_north_east_2.add(btn_Import);
 		p_north_east_2.add(btn_Export);
 		p_north_east_2.add(btn_Home);
@@ -191,6 +206,7 @@ public class StockView extends JPanel implements ActionListener {
 			Object evt = e.getSource();
 			if (evt == btn_Home) {
 				BurgerKing.card.first(BurgerKing.cardPanel);
+				BurgerKing.f.setSize(1060, 700);
 			} else if (evt == btn_Import) {
 				importStock();
 				searchStock();

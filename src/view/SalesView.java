@@ -163,7 +163,7 @@ public class SalesView extends JPanel implements ActionListener {
 
 		if (evt == btn_Home) {
 			BurgerKing.card.first(BurgerKing.cardPanel);
-			BurgerKing.f.setSize(1050, 700);
+			BurgerKing.f.setSize(1060, 700);
 		} else if (evt == rb_TypeChoice[0]) {
 			p_view.removeAll();
 			ymd = 'D';

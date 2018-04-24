@@ -376,7 +376,7 @@ public class OrderView extends JPanel implements ActionListener {
 			data.clear();
 
 			BurgerKing.card.first(BurgerKing.cardPanel);
-			BurgerKing.f.setSize(1050, 700);
+			BurgerKing.f.setSize(1060, 700);
 		} else if (evt == tf_receivedMoney) {
 			int receivedMoney = Integer.parseInt(tf_receivedMoney.getText());
 

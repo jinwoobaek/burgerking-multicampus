@@ -51,6 +51,9 @@ public class OrderView extends JPanel implements ActionListener {
 	JScrollPane jsp_table;
 	OrderModel model;
 	ArrayList<ArrayList> data;
+	
+	MenuAddView menuView;
+	
 	int subtotal;
 
 	int dcafter;
@@ -60,7 +63,7 @@ public class OrderView extends JPanel implements ActionListener {
 	ArrayList<JLabel>beverageList =  new ArrayList<JLabel>(); // 음료버튼 배열
 	ArrayList<JLabel>sideList =  new ArrayList<JLabel>(); // 사이드버튼 배열
 
-	JButton btnpay, btndiscount, btnadd, btncancle, bhome;
+	JButton btnpay, btndiscount, btnadd, btncancel, bhome;
 	String[] cardOption = new String[3];
 	String[] paymentOption = new String[6];
 	JTextField tf_receivedMoney, tf_change;
@@ -252,10 +255,10 @@ public class OrderView extends JPanel implements ActionListener {
 		bhome.addActionListener(this);
 		pane_Right.add(bhome);
 
-		btncancle = new JButton("취소");
-		btncancle.setBounds(160, 674, 107, 40);
-		btncancle.addActionListener(this);
-		pane_Right.add(btncancle);
+		btncancel = new JButton("취소");
+		btncancel.setBounds(160, 674, 107, 40);
+		btncancel.addActionListener(this);
+		pane_Right.add(btncancel);
 
 		btnadd = new JButton("메뉴추가");
 		btnadd.setBounds(40, 674, 107, 40);
@@ -342,7 +345,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 			discount(option);
 			return;
-		} else if (evt == btncancle) {
+		} else if (evt == btncancel) {
 
 			subtotal=0;
 			dcafter=0;

@@ -38,7 +38,6 @@ public class OrderView extends JPanel implements ActionListener {
 	JTextArea selectedItems;
 	String temp;
 	JOptionPane jOption;
-	JLabel btnNewButton, btnNewButton2, btnNewButton3, btnNewButton4, btnNewButton5, btnNewButton6;
 	JLabel lblNewLabel, lb_Discount, lb_Subtotal, lb_Sum, lb_Received, lb_Change;
 	JTable tableOrder;
 	OrderTableModel tb_ModelOrder;
@@ -59,7 +58,7 @@ public class OrderView extends JPanel implements ActionListener {
 	ArrayList<JLabel> beverageList = new ArrayList<JLabel>(); // 음료버튼 배열
 	ArrayList<JLabel> sideList = new ArrayList<JLabel>(); // 사이드버튼 배열
 
-	JButton btnpay, btndiscount, btnadd, btncancel, bhome;
+	JLabel btnpay, btndiscount, btnadd, btncancel, bhome;
 	String[] cardOption = new String[3];
 	String[] paymentOption = new String[6];
 	JTextField tf_receivedMoney, tf_change;
@@ -86,8 +85,12 @@ public class OrderView extends JPanel implements ActionListener {
 			sideList.get(i).addMouseListener(mlstnr);
 		}
 
-		tf_receivedMoney.addActionListener(this);
-		btnadd.addActionListener(this);
+		tf_receivedMoney.addMouseListener(mlstnr);
+		btnadd.addMouseListener(mlstnr);
+		btnpay.addMouseListener(mlstnr);
+		btncancel.addMouseListener(mlstnr);
+		btndiscount.addMouseListener(mlstnr);
+		bhome.addMouseListener(mlstnr);
 
 	}
 
@@ -140,7 +143,7 @@ public class OrderView extends JPanel implements ActionListener {
 
 			menuList = m_Model.refreshMenu();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("메뉴추가 실패: "+e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -230,27 +233,28 @@ public class OrderView extends JPanel implements ActionListener {
 		lb_Change.setBounds(53, 566, 121, 40);
 		pane_Right.add(lb_Change);
 
-		btnpay = new JButton("결제");
+		btnpay = new JLabel();
+		btnpay.setIcon(getIcon("결제.png", 107, 40));
 		btnpay.setBounds(160, 624, 107, 40);
-		btnpay.addActionListener(this);
 		pane_Right.add(btnpay);
 
-		btndiscount = new JButton("할인적용");
+		btndiscount = new JLabel();
+		btndiscount.setIcon(getIcon("할인적용.png", 107, 40));
 		btndiscount.setBounds(40, 624, 107, 40);
-		btndiscount.addActionListener(this);
 		pane_Right.add(btndiscount);
 
-		bhome = new JButton("홈으로");
+		bhome = new JLabel();
+		bhome.setIcon(getIcon("홈으로2.png", 107, 40));
 		bhome.setBounds(280, 624, 107, 40);
-		bhome.addActionListener(this);
 		pane_Right.add(bhome);
 
-		btncancel = new JButton("취소");
+		btncancel = new JLabel();
+		btncancel.setIcon(getIcon("취소.png", 107, 40));
 		btncancel.setBounds(160, 674, 107, 40);
-		btncancel.addActionListener(this);
 		pane_Right.add(btncancel);
 
-		btnadd = new JButton("메뉴추가");
+		btnadd = new JLabel();
+		btnadd.setIcon(getIcon("메뉴추가.png", 107, 40));
 		btnadd.setBounds(40, 674, 107, 40);
 		pane_Right.add(btnadd);
 		add(pane_Order_Main);
@@ -385,7 +389,8 @@ public class OrderView extends JPanel implements ActionListener {
 		public void mouseClicked(MouseEvent e) {
 			Object evt = e.getSource();
 
-			try {
+	try {
+		if(burgerList.contains(evt)||beverageList.contains(evt)||sideList.contains(evt)){
 
 				ArrayList temp = new ArrayList();
 				if (burgerList.contains(evt)) { // 버거메뉴이면
@@ -535,16 +540,120 @@ public class OrderView extends JPanel implements ActionListener {
 				tableOrder.setModel(tb_ModelOrder);
 				tb_ModelOrder.fireTableDataChanged();
 
-			} catch (Exception e1) {
-				System.out.println("POS오류: " + e1.getMessage());
-				e1.printStackTrace();
-			}
 
 			subtotal = 0;
 			for (int i = 0; i < data.size(); i++) { // 소계 계산
 				subtotal = subtotal + Integer.parseInt(data.get(i).get(3).toString());
 			}
 			tf_subtotal.setText(Integer.toString(subtotal));
+			
+			
+	}else
+				
+			if (evt == btnpay) { // 결제버튼 누르면
+				if (dcafter == 0)
+					tf_total.setText(Integer.toString(subtotal));
+
+				if (tf_receivedMoney.getText().length() > 0) {
+					if (Integer.parseInt(tf_total.getText()) <= Integer.parseInt(tf_receivedMoney.getText())) {
+						tf_change.setText(Integer.toString(
+								Integer.parseInt(tf_receivedMoney.getText()) - Integer.parseInt(tf_total.getText())));
+					}
+				}
+
+				int option = JOptionPane.showOptionDialog(null, "결제방식 선택", "", JOptionPane.OK_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, paymentOption, null);
+
+				int count = 0;
+				for (int i = 0; i < data.size(); i++) { // 선택 항목 수 계산
+					count += Integer.parseInt(data.get(i).get(2).toString());
+				}
+				count = count - 1;
+				String totalPrice = "";
+
+				if (tf_total.getText().length() < 2)
+					totalPrice = tf_subtotal.getText();
+				else
+					totalPrice = tf_total.getText();
+
+				
+					model.orderHistory(data.get(0).get(0).toString(), count, totalPrice);
+
+				
+
+				tf_subtotal.setText(null);
+				tf_discount.setText(null);
+				tf_total.setText(null);
+				tf_change.setText(null);
+				tf_receivedMoney.setText(null);
+				dcafter = 0;
+				data.clear();
+				tb_ModelOrder.data = data;
+				tableOrder.setModel(tb_ModelOrder);
+				tb_ModelOrder.fireTableDataChanged();
+
+				return;
+
+			} else if (evt == btndiscount) { // 할인 누르면
+				int option = JOptionPane.showOptionDialog(null, "맴버십선택", "", JOptionPane.OK_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, cardOption, null);
+
+				discount(option);
+				return;
+			} else if (evt == btncancel) {
+
+				subtotal = 0;
+				dcafter = 0;
+				tf_subtotal.setText(null);
+				tf_discount.setText(null);
+				tf_total.setText(null);
+				tf_change.setText(null);
+				tf_receivedMoney.setText(null);
+				data.clear();
+				tb_ModelOrder.data = data;
+				tableOrder.setModel(tb_ModelOrder);
+				tb_ModelOrder.fireTableDataChanged();
+
+				for (int i = 0; i < text.length; i++) {
+					text[i] = "";
+				}
+
+				return;
+			} else if (evt == bhome) {
+
+				subtotal = 0;
+				dcafter = 0;
+				tf_subtotal.setText(null);
+				tf_discount.setText(null);
+				tf_total.setText(null);
+				tf_change.setText(null);
+				tf_receivedMoney.setText(null);
+				data.clear();
+
+				BurgerKing.card.first(BurgerKing.cardPanel);
+				BurgerKing.f.setSize(1060, 700);
+			} else if (evt == tf_receivedMoney) {
+				int receivedMoney = Integer.parseInt(tf_receivedMoney.getText());
+
+				if (tf_total.getText().length() == 0) {
+					int change = receivedMoney - Integer.parseInt(tf_subtotal.getText());
+					tf_change.setText(String.valueOf(change));
+				} else {
+					int change = receivedMoney - Integer.parseInt(tf_total.getText());
+					tf_change.setText(String.valueOf(change));
+				}
+
+			} else if (evt == btnadd) {
+				menuView = new MenuAddView();
+			}
+
+			} catch (Exception e1) {
+				System.out.println("POS오류: " + e1.getMessage());
+				e1.printStackTrace();
+			}
+			
+			
+			
 
 		}
 	};

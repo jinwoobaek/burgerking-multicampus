@@ -109,7 +109,7 @@ public class StockView extends JPanel implements ActionListener {
 		tb_ModelStock = new StockTableModel();
 		tableStock = new JTable(tb_ModelStock);
 		tableStock.setBackground(Color.WHITE);
-
+		
 		// *********화면 구성*******************************
 		// 맨위쪽
 		JPanel p_north = new JPanel();

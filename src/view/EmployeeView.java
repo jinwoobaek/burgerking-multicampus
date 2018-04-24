@@ -109,7 +109,6 @@ public class EmployeeView extends JPanel implements ActionListener {
 		JPanel p_east = new JPanel();
 		p_east.setLayout(new BorderLayout());
 
-		
 		// 오른쪽 위
 		JPanel p_east_north = new JPanel();
 		p_east_north.add(com_EmpSearch);
@@ -211,7 +210,7 @@ public class EmployeeView extends JPanel implements ActionListener {
 		JOptionPane.showMessageDialog(null, "직원 등록 성공");
 	}
 
-	void searchEmp() {
+	public void searchEmp() {
 		int idx = com_EmpSearch.getSelectedIndex();
 		String str = tf_EmpSearch.getText();
 

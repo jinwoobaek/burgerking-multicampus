@@ -32,7 +32,7 @@ public class ChartView extends JPanel {
 	// getChart() 메서드. Chart 를 만들어서 리턴함
 	public JFreeChart getChart(String startDay, String endDay, char ymd) {
 
-		JFreeChart chart = ChartFactory.createBarChart("Web servers market share", "Date", "Sales Of Day",
+		JFreeChart chart = ChartFactory.createBarChart("Sales Chart", "Date", "Sales Of Day",
 				getDataSet(startDay, endDay, ymd), PlotOrientation.VERTICAL, true, true, false);
 		// barChart.setBackgroundPaint(new Color(146,21,15));
 		chart.setBorderVisible(true); // 차트전체의 경계선이 나타난다.
@@ -46,12 +46,10 @@ public class ChartView extends JPanel {
 		CategoryAxis axis = plot.getDomainAxis(); // 횡축 객체 구하기
 		axis.setLowerMargin(0.03); // 횡축의 가장 왼쪽과 가장 왼쪽 봉과의 여백
 		axis.setUpperMargin(0.03); // 횡축의 가장 오른쪽과 가장 오른쪽 봉과의 여백
-		axis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));// 카테고리명을 위로 향하게 비스듬히 나타나도록 한다.
-		
-		
-		 BarRenderer r = (BarRenderer)chart.getCategoryPlot().getRenderer(); // BarRenderer
-		
-		r.setSeriesPaint(0, new Color(230,126,34));
+		axis.setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0));
+		BarRenderer r = (BarRenderer) chart.getCategoryPlot().getRenderer(); // BarRenderer
+
+		r.setSeriesPaint(0, new Color(230, 126, 34));
 		return chart;
 	}
 

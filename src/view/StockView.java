@@ -52,6 +52,7 @@ public class StockView extends JPanel implements ActionListener {
 		initStyle();
 		connectDB(); // db 연결
 		eventProc();
+		
 	}
 
 	public void initStyle() {
@@ -205,8 +206,20 @@ public class StockView extends JPanel implements ActionListener {
 		public void mouseClicked(MouseEvent e) {
 			Object evt = e.getSource();
 			if (evt == btn_Home) {
+				
+				tb_ModelStock.data.clear();
+				tableStock.setModel(tb_ModelStock);
+				tb_ModelStock.fireTableDataChanged();
+				tf_StockSearch.setText(null);
+				tf_Amount.setText(null);
+				tf_EnteringDate.setText(null);
+				tf_StockName.setText(null);
+				tf_StockNo.setText(null);
+				tf_ValidPeriod.setText(null);
+				
 				BurgerKing.card.first(BurgerKing.cardPanel);
 				BurgerKing.f.setSize(1060, 700);
+				
 			} else if (evt == btn_Import) {
 				importStock();
 				searchStock();
@@ -256,7 +269,7 @@ public class StockView extends JPanel implements ActionListener {
 		JOptionPane.showMessageDialog(null, "자재 입고 성공");
 	}
 
-	void searchStock() {
+	public void searchStock() {
 		int idx = com_StockSearch.getSelectedIndex();
 		String str = tf_StockSearch.getText();
 

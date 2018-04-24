@@ -114,6 +114,8 @@ public class SalesView extends JPanel implements ActionListener {
 			group.add(rb_TypeChoice[i]);
 			p_rbp.add(rb_TypeChoice[i]);
 		}
+		rb_TypeChoice[0].setSelected(true);
+
 		JPanel p_north_west_south_null = new JPanel();
 		p_north_west_south.setLayout(new FlowLayout());
 		p_north_west_south_null.add(new JLabel("분기를 선택 하십시오."));
@@ -155,6 +157,8 @@ public class SalesView extends JPanel implements ActionListener {
 		rb_TypeChoice[0].addActionListener(this);
 		rb_TypeChoice[1].addActionListener(this);
 		rb_TypeChoice[2].addActionListener(this);
+		startDatePanel.addActionListener(this);
+		endDatePanel.addActionListener(this);
 	}
 
 	@Override
@@ -177,6 +181,11 @@ public class SalesView extends JPanel implements ActionListener {
 		} else if (evt == rb_TypeChoice[2]) {
 			p_view.removeAll();
 			ymd = 'Y';
+			chartView();
+			totalSalesDay();
+		} else if (evt == startDatePanel || evt == endDatePanel) {
+			p_view.removeAll();
+			ymd = 'D';
 			chartView();
 			totalSalesDay();
 		}

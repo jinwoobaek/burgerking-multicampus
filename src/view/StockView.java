@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ public class StockView extends JPanel implements ActionListener {
 	JComboBox com_StockSearch;
 	JTextField tf_StockSearch;
 
+	TitledBorder border;
 	JTable tableStock;
 
 	StockTableModel tb_ModelStock;
@@ -57,6 +59,7 @@ public class StockView extends JPanel implements ActionListener {
 		tf_ValidPeriod = new JTextField();
 		tf_EnteringDate = new JTextField();
 		tf_Amount = new JTextField();
+		border = new TitledBorder("");
 
 		btn_Import = new JButton("입고");
 		btn_Export = new JButton("출고");
@@ -77,6 +80,7 @@ public class StockView extends JPanel implements ActionListener {
 		// 맨위>왼쪽
 		JPanel p_north_west = new JPanel();
 		p_north_west.setLayout(new GridLayout(3, 4));
+		p_north_west.setBackground(new Color(146, 21, 15));
 		p_north_west.add(new JLabel("제품코드"));
 		p_north_west.add(tf_StockNo);
 		p_north_west.add(new JLabel("제품명"));
@@ -87,7 +91,9 @@ public class StockView extends JPanel implements ActionListener {
 		p_north_west.add(tf_EnteringDate);
 		p_north_west.add(new JLabel("수량"));
 		p_north_west.add(tf_Amount);
-		p_north_west.setBorder(new TitledBorder("재고 관리"));
+		border.setTitle("재고 관리");
+		border.setTitleColor(new Color(255, 160, 20));
+		p_north_west.setBorder(border);
 
 		// 맨위>오른쪽
 		JPanel p_north_east = new JPanel();
@@ -95,11 +101,13 @@ public class StockView extends JPanel implements ActionListener {
 		// 맨위>오른쪽>위
 		JPanel p_north_east_1 = new JPanel();
 		p_north_east_1.setLayout(new FlowLayout());
+		p_north_east_1.setBackground(new Color(146, 21, 15));
 		p_north_east_1.add(com_StockSearch);
 		p_north_east_1.add(tf_StockSearch);
 		// 맨위>오른쪽>아래
 		JPanel p_north_east_2 = new JPanel();
 		p_north_east_2.setLayout(new GridLayout(1, 3));
+		p_north_east_2.setBackground(new Color(146, 21, 15));
 		p_north_east_2.add(btn_Import);
 		p_north_east_2.add(btn_Export);
 		p_north_east_2.add(btn_Home);

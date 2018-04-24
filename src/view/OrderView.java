@@ -171,7 +171,7 @@ public class OrderView extends JPanel implements ActionListener {
 		btnNewButton6.setIcon(getIcon("감튀", 170, 220));
 		
 
-		pane_Right = new JPanel();
+	
 		pane_Right.setBounds(408, 30, 406, 724);
 		pane_Right.setBackground(new Color(146, 21, 15));
 		pane_Right.setBorder(new LineBorder(new Color(204, 204, 204),2));

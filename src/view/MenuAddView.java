@@ -40,7 +40,7 @@ public class MenuAddView extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 
 		img_Area = new JLabel();
-		btn_OpenImg = new JButton("파일 열기");
+		btn_OpenImg = new JButton("아이콘 등록");
 
 		tf_Categori = new JTextField(5);
 		tf_MenuName = new JTextField(5);
@@ -68,16 +68,17 @@ public class MenuAddView extends JFrame implements ActionListener {
 		p_center_east.add(tf_MenuName);
 		p_center_east.add(new JLabel("가격"));
 		p_center_east.add(tf_Price);
-		p_center_east.add(new JLabel("주소"));
+		p_center_east.add(new JLabel("파일명"));
 		p_center_east.add(tf_Scr);
 
 		p_center.add(p_center_west);
 		p_center.add(p_center_east);
 
 		JPanel p_south = new JPanel();
-		p_south.setLayout(new FlowLayout());
+		p_south.setLayout(new GridLayout(1,2));
 		// 프레인 아래쪽
 		p_south.add(btn_Add);
+		//btn_Add.setBackground(bg);
 		p_south.add(btn_Cancel);
 		// 프레임 전체
 		add(p_center, BorderLayout.CENTER);

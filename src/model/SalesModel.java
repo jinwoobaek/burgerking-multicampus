@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 
 import vo.Order;
 import vo.Sales;
@@ -20,8 +21,8 @@ public class SalesModel {
 
 	public ArrayList<Order> dayChart(String startDay, String endDay) throws Exception {
 		// 3.SQL문장 만들기
-		String sql = "SELECT total_price, order_time FROM table_order WHERE order_time BETWEEN '" + startDay + "' AND '"
-				+ endDay + "' ORDER BY ORDER_TIME";
+		String sql = "SELECT total_price, to_char(order_time,'YYYY/MM/DD') order_time FROM table_order WHERE order_time BETWEEN '"
+				+ startDay + "' AND '" + endDay + "' ORDER BY ORDER_TIME";
 		// 4.SQL전송 객체 얻어오기
 		PreparedStatement ps = con.prepareStatement(sql);
 		// 5.SQL전송
@@ -31,6 +32,7 @@ public class SalesModel {
 			Order vo = new Order();
 			vo.setTotal_Price(rs.getInt("TOTAL_PRICE"));
 			vo.setOrder_Time(rs.getString("ORDER_TIME"));
+			System.out.println(vo.getOrder_Time());
 
 			list.add(vo);
 		}

@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -18,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
@@ -29,7 +33,9 @@ import vo.Stock;
 public class StockView extends JPanel implements ActionListener {
 
 	JTextField tf_StockNo, tf_StockName, tf_Amount, tf_ValidPeriod, tf_EnteringDate;
-	JButton btn_Import, btn_Export, btn_Home;
+	JLabel btn_Import, btn_Export, btn_Home;
+	JLabel lb_StockNo, lb_StockName, lb_Amount, lb_ValidPeriod, lb_EnteringDate,top_Img;
+	JPanel wholePanel;
 
 	JComboBox com_StockSearch;
 	JTextField tf_StockSearch;
@@ -59,11 +65,26 @@ public class StockView extends JPanel implements ActionListener {
 		tf_ValidPeriod = new JTextField();
 		tf_EnteringDate = new JTextField();
 		tf_Amount = new JTextField();
+		lb_StockNo = new JLabel("제품코드");
+		lb_StockNo.setForeground(new Color(255, 160, 20));
+		lb_StockName = new JLabel("제품명");
+		lb_StockName.setForeground(new Color(255, 160, 20));
+		lb_Amount= new JLabel("수량");
+		lb_Amount.setForeground(new Color(255, 160, 20));
+		lb_ValidPeriod = new JLabel("유통기한");
+		lb_ValidPeriod.setForeground(new Color(255, 160, 20));
+		lb_EnteringDate= new JLabel("입고일");
+		lb_EnteringDate.setForeground(new Color(255, 160, 20));
+		
+		
 		border = new TitledBorder("");
 
-		btn_Import = new JButton("입고");
-		btn_Export = new JButton("출고");
-		btn_Home = new JButton("홈으로");
+		btn_Import = new JLabel();
+		btn_Import.setIcon(getIcon("입고", 145, 50));
+		btn_Export = new JLabel();
+		btn_Export.setIcon(getIcon("삭제", 145, 50));
+		btn_Home = new JLabel();
+		btn_Home.setIcon(getIcon("홈으로", 145, 50));
 
 		String[] cbStockSearch = { "품명", "제품코드" };
 		com_StockSearch = new JComboBox(cbStockSearch);
@@ -71,6 +92,7 @@ public class StockView extends JPanel implements ActionListener {
 
 		tb_ModelStock = new StockTableModel();
 		tableStock = new JTable(tb_ModelStock);
+		tableStock.setBackground(Color.WHITE);
 
 		// *********화면 구성*******************************
 		// 맨위쪽
@@ -79,17 +101,17 @@ public class StockView extends JPanel implements ActionListener {
 
 		// 맨위>왼쪽
 		JPanel p_north_west = new JPanel();
-		p_north_west.setLayout(new GridLayout(3, 4));
+		p_north_west.setLayout(new GridLayout(3, 4,5,5));
 		p_north_west.setBackground(new Color(146, 21, 15));
-		p_north_west.add(new JLabel("제품코드"));
+		p_north_west.add(lb_StockNo);
 		p_north_west.add(tf_StockNo);
-		p_north_west.add(new JLabel("제품명"));
+		p_north_west.add(lb_StockName);
 		p_north_west.add(tf_StockName);
-		p_north_west.add(new JLabel("유통기한"));
+		p_north_west.add(lb_ValidPeriod);
 		p_north_west.add(tf_ValidPeriod);
-		p_north_west.add(new JLabel("입고일"));
+		p_north_west.add(lb_EnteringDate);
 		p_north_west.add(tf_EnteringDate);
-		p_north_west.add(new JLabel("수량"));
+		p_north_west.add(lb_Amount);
 		p_north_west.add(tf_Amount);
 		border.setTitle("재고 관리");
 		border.setTitleColor(new Color(255, 160, 20));
@@ -119,13 +141,25 @@ public class StockView extends JPanel implements ActionListener {
 		p_north.add(p_north_east);
 		// 아래쪽 (테이블)
 		JPanel p_south = new JPanel();
+		p_south.setBackground(Color.WHITE);
 		p_south.setLayout(new BorderLayout());
 		p_south.add(new JScrollPane(tableStock));
 
 		// 전체 화면에 위아래 붙이기
+		wholePanel= new JPanel();
+		wholePanel.setLayout(new BorderLayout());
+		wholePanel.add(p_north, BorderLayout.NORTH);
+		wholePanel.add(p_south, BorderLayout.CENTER);
+		
+		//상단 데코 이미지
+		top_Img = new JLabel();
+		top_Img.setIcon(new ImageIcon("./src/img/maintop.png"));
+		top_Img.setBorder(new LineBorder(new Color(204, 204, 204), 1));
+		
 		setLayout(new BorderLayout());
-		add(p_north, BorderLayout.NORTH);
-		add(p_south, BorderLayout.CENTER);
+		add(wholePanel,BorderLayout.CENTER);
+		add(top_Img,BorderLayout.NORTH);
+		
 
 	}
 
@@ -140,15 +174,28 @@ public class StockView extends JPanel implements ActionListener {
 	}
 
 	void eventProc() {
-		btn_Import.addActionListener(this);
-		btn_Export.addActionListener(this);
-		btn_Home.addActionListener(this);
+		btn_Import.addMouseListener(mlstnr);
+		btn_Export.addMouseListener(mlstnr);
+		btn_Home.addMouseListener(mlstnr);
 		tf_StockSearch.addActionListener(this);
 
-		tableStock.addMouseListener(new MouseAdapter() {
+		tableStock.addMouseListener(mlstnr);
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
+	}
+	
+	MouseListener mlstnr = new MouseAdapter() {
+		
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			Object evt = e.getSource();
+			if (evt == btn_Home) {
+				BurgerKing.card.first(BurgerKing.cardPanel);
+			} else if (evt == btn_Import) {
+				importStock();
+				searchStock();
+			}else if (evt == tableStock){
+				
 				int row = tableStock.getSelectedRow();
 				int col = 0;
 				int no = (int) tableStock.getValueAt(row, col);
@@ -165,21 +212,16 @@ public class StockView extends JPanel implements ActionListener {
 				tf_ValidPeriod.setText(String.valueOf(vo.getValidPeriod()));
 				tf_EnteringDate.setText(vo.getEnteringDate());
 				tf_Amount.setText(String.valueOf(vo.getAmount()));
-
+				
 			}
-		});
-
-	}
+			
+		}
+	};
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object evt = e.getSource();
-		if (evt == btn_Home) {
-			BurgerKing.card.first(BurgerKing.cardPanel);
-		} else if (evt == btn_Import) {
-			importStock();
-			searchStock();
-		} else if (evt == tf_StockSearch) {
+		if (evt == tf_StockSearch) {
 			searchStock();
 		}
 	}
@@ -211,6 +253,12 @@ public class StockView extends JPanel implements ActionListener {
 			System.out.println("검색 실패 : " + e.getMessage());
 		}
 	}
+	
+	public ImageIcon getIcon(String name, int width, int height) {
+		return new ImageIcon(new ImageIcon
+					("src\\img\\" + name + ".png").getImage().getScaledInstance(width, height,
+				Image.SCALE_DEFAULT));
+	}
 }
 
 // 화면에 테이블 붙이는 메소드
@@ -241,4 +289,5 @@ class StockTableModel extends AbstractTableModel {
 	public String getColumnName(int col) {
 		return columnNames[col];
 	}
+	
 }

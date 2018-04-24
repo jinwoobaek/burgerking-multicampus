@@ -73,7 +73,7 @@ public class BurgerKing {
 		btnPanel.add(img_Top);
 
 		img_Bot = new JLabel();
-		img_Bot.setBounds(0, 695, 1050, 54);
+		img_Bot.setBounds(0, 610, 1050, 54);
 		img_Bot.setIcon(new ImageIcon("./src/img/mainbot.PNG"));
 		btnPanel.add(img_Bot);
 
@@ -96,7 +96,7 @@ public class BurgerKing {
 		cardPanel.add(salesView, "salesView");
 		f.add(cardPanel);
 
-		f.setSize(1050, 700);
+		f.setSize(1060, 700);
 		f.setVisible(true);
 
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
